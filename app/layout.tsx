@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import ThemeRegistry from '@/theme/ThemeRegistry'
+import PersistentDrawerLeft from './components/header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <ThemeRegistry>
+        <body className={inter.className}>
+          <AppRouterCacheProvider>
+            <PersistentDrawerLeft>{children}</PersistentDrawerLeft>
+          </AppRouterCacheProvider>
+        </body>
+      </ThemeRegistry>
     </html>
   )
 }
