@@ -15,10 +15,8 @@ export async function middleware(request: NextRequest) {
   try {
     const auth = request.cookies.get('Authorization')?.value
     const apiUrl = process.env.API_URL + 'token/verify/'
-    console.log('path')
 
-    console.log(request.nextUrl.pathname)
-    const path = request.nextUrl.pathname
+    let path = request.nextUrl.pathname
     if (
       authRoutes.some((pattern) =>
         matchesWildcard(request.nextUrl.pathname, pattern),
@@ -42,11 +40,13 @@ export async function middleware(request: NextRequest) {
         if (sucesso) {
           console.log('deu certo')
           // console.log('não pode acessar')
-          console.log(process.env.NEXTAUTH_URL)
-          return NextResponse.redirect(process.env.NEXTAUTH_URL + path)
+          path = path.slice(1)
+          const url = process.env.NEXTAUTH_URL + path
+          console.log(url)
+          return NextResponse.redirect(url)
         }
       } else {
-        return NextResponse.redirect(process.env.NEXTAUTH_URL + '/login')
+        return NextResponse.redirect(process.env.NEXTAUTH_URL + 'login')
       }
     }
   } catch (err) {

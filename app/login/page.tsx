@@ -12,7 +12,7 @@ export default function Page() {
   }))
   return (
     <Grid container>
-      <Grid xs={12} md={12} lg={12}>
+      <Grid item xs={12} md={12} lg={12}>
         <Item>Login</Item>
         <Box
           component="form"
