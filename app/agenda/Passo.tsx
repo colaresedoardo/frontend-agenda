@@ -9,12 +9,16 @@ import {
   Stepper,
 } from '@mui/material'
 import MostrarServicos from './ListarServicos'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
+import SelecionarProfissional from './SelecionarProfessional'
+import SelecionarHorario from './SelecionarHorario'
+import { ContextoEvento } from './Contexto'
 
 type Props = {
   servicos: []
+  profissionais: []
 }
 export default function PassoPassoAgendamento(props: Props) {
   const steps = [
@@ -28,7 +32,7 @@ export default function PassoPassoAgendamento(props: Props) {
   const isStepSkipped = (step: number) => {
     return skipped.has(step)
   }
-
+  const evento = useContext(ContextoEvento)
   const handleNext = () => {
     let newSkipped = skipped
     if (isStepSkipped(activeStep)) {
@@ -42,8 +46,8 @@ export default function PassoPassoAgendamento(props: Props) {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
-
-  console.log(activeStep)
+  console.log('contexto')
+  console.log(evento)
   return (
     <Box
       display={'flex'}
@@ -74,6 +78,12 @@ export default function PassoPassoAgendamento(props: Props) {
         <Grid item md={8}>
           {activeStep == 0 && <MostrarServicos servicos={props.servicos} />}
           {activeStep == 1 && <ListarData></ListarData>}
+          {activeStep == 2 && (
+            <SelecionarProfissional
+              profissionais={props.profissionais}
+            ></SelecionarProfissional>
+          )}
+          {activeStep == 3 && <SelecionarHorario></SelecionarHorario>}
         </Grid>
       </Grid>
       <Box
