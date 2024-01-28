@@ -1,11 +1,29 @@
 import { Avatar, Box, Button, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { ContextoEvento } from './Contexto'
 
 export default function SelecionarHorario() {
   const [horaInical, setHoraInicial] = useState(8)
   const [horaFinal, setHoraFinal] = useState(17)
   const [intervalo, setIntervalo] = useState(30)
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
+  const evento = useContext(ContextoEvento)
+
+  const salvarHoraNoContexto = (hora: string) => {
+    console.log(hora)
+    const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
+    const dataAnterior = evento?.evento.map((evento) => evento.data_inicio)[0]
+    const profissional = evento?.evento.map((evento) => evento.profissional)[0]
+
+    evento?.setEvento([
+      {
+        hora: hora,
+        servico: servicoAnterior!,
+        data_inicio: dataAnterior,
+        profissional: profissional!,
+      },
+    ])
+  }
   useEffect(() => {
     const horas = []
     const conjuntos = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -27,11 +45,18 @@ export default function SelecionarHorario() {
       setListaDeHoras(horas)
     }
   })
-  console.log(listaDeHoras)
+  console.log(evento)
   return (
     <Box>
       {listaDeHoras.map((hora) => (
-        <Button key={hora}>{hora}</Button>
+        <Button
+          onClick={() => {
+            salvarHoraNoContexto(hora)
+          }}
+          key={hora}
+        >
+          {hora}
+        </Button>
       ))}
     </Box>
   )

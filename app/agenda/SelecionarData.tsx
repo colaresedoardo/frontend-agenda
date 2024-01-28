@@ -1,6 +1,7 @@
 'use client'
 import { Box, Button } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { ContextoEvento } from './Contexto'
 
 export default function ListarData() {
   const nomesDosDiasDaSemana = [
@@ -12,25 +13,11 @@ export default function ListarData() {
     'Sexta',
     'Sábado',
   ]
-  const meses = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ]
-  const [dataAtual, setDataAtual] = useState(new Date())
-  const [primeiraDataSequencia, setPrimeiraDataSequencia] = useState('')
-  const [ultimaDataSequencia, setUltimaDataSequencia] = useState('')
-  const [sequenciaDias, setSequenciaDias] = useState([])
 
+  const [dataAtual, setDataAtual] = useState(new Date())
+
+  const [sequenciaDias, setSequenciaDias] = useState([])
+  const evento = useContext(ContextoEvento)
   const converteDiaDoMes = (data: string) => {
     const dataBruta = new Date(`${data}T00:00:00`)
     const dataLimpa = dataBruta.getDate()
@@ -43,9 +30,7 @@ export default function ListarData() {
     }
     return dataBruta.getDate()
   }
-  const converterStringParaData = (data: string) => {
-    return new Date(`${data}T00:00:00`)
-  }
+
   const convertDiaDaSemana = (data: string) => {
     const dataBruta = new Date(`${data}T00:00:00`)
     return dataBruta.getDay()
@@ -63,7 +48,6 @@ export default function ListarData() {
     return dataLimpa
   }
   useEffect(() => {
-    console.log('DATA ATUAL AQUI')
     const proximosDias = []
     console.log(dataAtual)
     for (let i = 0; i < 8; i++) {
@@ -90,22 +74,41 @@ export default function ListarData() {
     const dataAdicionada = adicionarDias(dataAtual, 7)
     console.log(dataAdicionada)
     setDataAtual(dataAdicionada)
-    setUltimaDataSequencia('')
-    setPrimeiraDataSequencia('')
     setSequenciaDias([])
   }
   const atualizarSequenciaParaAtras = () => {
     const dataSubtraida = adicionarDias(dataAtual, -7)
-    setUltimaDataSequencia('')
     setSequenciaDias([])
     setDataAtual(dataSubtraida)
+  }
+  const salvarDataNoContexto = (dia: string) => {
+    if (evento) {
+      const valorAnterior = evento?.evento.map((evento) => evento.servico)[0]
+      const profissional = evento?.evento.map(
+        (evento) => evento.profissional,
+      )[0]
+      const horario = evento?.evento.map((evento) => evento.hora)[0]
+      evento?.setEvento([
+        {
+          servico: valorAnterior,
+          data_inicio: dia,
+          profissional: profissional,
+          hora: horario,
+        },
+      ])
+    }
   }
 
   return (
     <Box display={'flex'}>
       <Button onClick={atualizarSequenciaParaAtras}>{'<'}</Button>
       {sequenciaDias.map((dia) => (
-        <Button key={dia}>
+        <Button
+          key={dia}
+          onClick={() => {
+            salvarDataNoContexto(dia)
+          }}
+        >
           <Box>
             <Box>
               {converteDiaDoMes(dia)}/{converterMes(dia)}

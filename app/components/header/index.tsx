@@ -165,6 +165,23 @@ export default function PersistentDrawerLeft({
               </ListItemButton>
             </ListItem>
           </Link>
+          <Link
+            href="mensagem"
+            style={{
+              textDecoration: 'none',
+              color: theme.palette.primary.dark,
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <MailIcon />
+                </ListItemIcon>
+
+                <ListItemText primary="Mensagem"></ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>

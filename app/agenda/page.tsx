@@ -8,7 +8,7 @@ export default async function Home() {
   const api = new ApiClient()
   const resultado = await api.get('servico/')
   const profissionais = await api.get('profissional/')
-  console.log(resultado)
+
   return (
     <Box>
       <Contexto servicos={resultado} profissionais={profissionais}></Contexto>
