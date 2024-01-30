@@ -7,3 +7,10 @@ export const converterData = (dataString: string) => {
 
   return `${dia}/${mes}/${ano}`
 }
+
+export const trazerDataFormatoAmericano = (data: Date) => {
+  const ano = data.getFullYear()
+  const mes = ('0' + (data.getMonth() + 1)).slice(-2) // Adiciona um zero à esquerda se necessário
+  const dia = ('0' + data.getDate()).slice(-2) // Adiciona um zero à esquerda se necessário
+  return `${ano}-${mes}-${dia}T00:00`
+}

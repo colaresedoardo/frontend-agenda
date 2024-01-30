@@ -8,8 +8,7 @@ type Props = {
 export default function SelecionarProfissional(props: Props) {
   const professionais = props.profissionais
   const evento = useContext(ContextoEvento)
-  console.log('dentro de Profissional')
-  console.log(evento)
+
   const salvarProfissionalNoContexto = (profissinonal) => {
     const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
     const dataAnterior = evento?.evento.map((evento) => evento.data_inicio)[0]

@@ -1,21 +1,11 @@
-import {
-  Box,
-  Container,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-  Typography,
-} from '@mui/material'
-import InboxIcon from '@mui/icons-material/Inbox'
+import { Box, List, ListItem, ListItemButton, Typography } from '@mui/material'
+
 import { useContext } from 'react'
 import { ContextoEvento } from './Contexto'
 type Props = {
   servicos: []
 }
 export default function MostrarServicos(props: Props) {
-  console.log(props)
   const servicos = props.servicos
   const evento = useContext(ContextoEvento)
   const salvarServicoNoContexto = (servico) => {
@@ -36,8 +26,8 @@ export default function MostrarServicos(props: Props) {
       },
     ])
   }
-  console.log('evento')
-  console.log(evento)
+  const idServico = evento?.evento.map((e) => e.servico.id)
+  console.log(idServico)
   return (
     <>
       <Typography variant="h4">Serviços</Typography>
@@ -49,6 +39,7 @@ export default function MostrarServicos(props: Props) {
                 onClick={() => {
                   salvarServicoNoContexto(servico)
                 }}
+                selected={idServico == servico.id}
               >
                 <Box display={'flex'} flexDirection={'column'}>
                   <Box display={'flex'} gap={1} alignItems={'center'}>

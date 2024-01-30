@@ -1,17 +1,20 @@
-import { Box, Step, StepLabel, Stepper } from '@mui/material'
+import { Box } from '@mui/material'
 
-import PassoPassoAgendamento from './Passo'
-import ApiClient from '../fetch/ApiClient'
 import Contexto from './Contexto'
+import ApiServer from '../fetch/ApiServer'
 
 export default async function Home() {
-  const api = new ApiClient()
+  const api = new ApiServer()
   const resultado = await api.get('servico/')
   const profissionais = await api.get('profissional/')
-
+  const configuracao = await api.get('configuracao/')
   return (
     <Box>
-      <Contexto servicos={resultado} profissionais={profissionais}></Contexto>
+      <Contexto
+        servicos={resultado}
+        profissionais={profissionais}
+        configuracao={configuracao}
+      ></Contexto>
     </Box>
   )
 }

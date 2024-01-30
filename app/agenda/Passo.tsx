@@ -18,10 +18,13 @@ import SelecionarHorario from './SelecionarHorario'
 import { ContextoEvento, EventoModelo } from './Contexto'
 import FormFinal from './FormFinal'
 import enviarMensagem from '../actions/servico/enviarMensagem'
-
+import SendIcon from '@mui/icons-material/Send'
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 type Props = {
   servicos: []
   profissionais: []
+  configuracao: object
 }
 export default function PassoPassoAgendamento(props: Props) {
   const steps = [
@@ -72,19 +75,8 @@ export default function PassoPassoAgendamento(props: Props) {
     // console.log(objeto)
     const enviar = await enviarMensagem(objeto)
     console.log(enviar)
-    // const formData = new FormData(event.target)
-    // console.log(formData)
-    // const response = await fetch('/api/submit', {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-
-    // Handle response if necessary
-    // const data = await response.json()
-    // ...
   }
-  console.log('contexto')
-  console.log(evento)
+
   return (
     <Box
       display={'flex'}
@@ -124,7 +116,11 @@ export default function PassoPassoAgendamento(props: Props) {
               profissionais={props.profissionais}
             ></SelecionarProfissional>
           )}
-          {activeStep == 3 && <SelecionarHorario></SelecionarHorario>}
+          {activeStep == 3 && (
+            <SelecionarHorario
+              configuracao={props.configuracao}
+            ></SelecionarHorario>
+          )}
           {activeStep == 4 && <FormFinal></FormFinal>}
         </Grid>
       </Grid>
@@ -135,7 +131,13 @@ export default function PassoPassoAgendamento(props: Props) {
         textAlign={'center'}
         justifyContent={'center'}
       >
-        <Button onClick={handleBack}>voltar</Button>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowLeftIcon />}
+          onClick={handleBack}
+        >
+          voltar
+        </Button>
         {activeStep == 4 ? (
           <>
             <Button type="submit">enviar</Button>
@@ -143,7 +145,11 @@ export default function PassoPassoAgendamento(props: Props) {
         ) : (
           <>
             {' '}
-            <Button onClick={handleNext}>
+            <Button
+              variant="outlined"
+              endIcon={<ArrowRightIcon />}
+              onClick={handleNext}
+            >
               {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
             </Button>
           </>

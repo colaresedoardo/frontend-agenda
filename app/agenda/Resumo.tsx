@@ -5,7 +5,6 @@ import { converterData } from '../utils'
 
 export default function ResumoServico() {
   const evento = useContext(ContextoEvento)
-  console.log(evento?.evento)
 
   return (
     <Card sx={{ maxWidth: 345 }}>

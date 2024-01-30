@@ -19,7 +19,37 @@ const themeOptions: ThemeOptions = {
       default: '#ffff',
     },
     primary: {
-      main: '#000000',
+      main: '#A52A2A',
+    },
+    secondary: {
+      main: '#efac71',
+    },
+  },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          ':hover': {
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
+            '.MuiListItemIcon-root': {
+              color: theme.palette.primary.main,
+            },
+          },
+          '&.Mui-selected': {
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.main,
+            },
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
+
+            '.MuiListItemIcon-root': {
+              color: theme.palette.secondary.main,
+            },
+          },
+          borderRadius: theme.spacing(2),
+        }),
+      },
     },
   },
 }

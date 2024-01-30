@@ -1,66 +1,20 @@
-import { cookies } from 'next/headers'
+import { getCookie } from 'cookies-next'
+export const fetcher = (recurso: string, parametros?: object): [] => {
+  const api = `${process.env.NEXT_PUBLIC_BACKEND_URL}${recurso}`
+  const url = new URL(api!)
 
-class ApiClient {
-  private baseUrl: string = process.env.API_URL
-
-  private async handleResponse(response: Response) {
-    if (!response.ok) {
-      throw new Error(`Falha ao consultar a API ${response.status}`)
-    }
-
-    return response.json()
-  }
-
-  async get(
-    endpoint: string,
-    nomeParaRevalidarConsulta?: string,
-    queryParams?: Record<string, string>,
-  ): Promise<any> {
-    const url = new URL(endpoint, this.baseUrl)
-
-    if (queryParams) {
-      Object.keys(queryParams).forEach((key) =>
-        url.searchParams.append(key, queryParams[key]),
-      )
-    }
-    const token = `Bearer  ${cookies().get('Authorization')?.value}`
-    let response = null
-    if (nomeParaRevalidarConsulta) {
-      response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-
-        next: { tags: [nomeParaRevalidarConsulta] },
-      })
-    } else {
-      response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      })
-    }
-
-    return this.handleResponse(response)
-  }
-
-  async post(endpoint: string, data: Record<string, any>): Promise<any> {
-    const url = new URL(endpoint, this.baseUrl)
-    const token = `Bearer  ${cookies().get('Authorization')?.value}`
-    const response = await fetch(url.toString(), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
+  if (parametros) {
+    Object.keys(parametros).forEach((chave) => {
+      url.searchParams.append(chave, encodeURIComponent(parametros[chave]))
     })
-
-    return this.handleResponse(response)
   }
+
+  const token = getCookie('Authorization')
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json())
 }
-export default ApiClient

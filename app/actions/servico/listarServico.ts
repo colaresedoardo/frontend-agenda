@@ -1,9 +1,10 @@
 'use server'
-import ApiClient from '@/app/fetch/ApiClient'
+
+import ApiServer from '@/app/fetch/ApiServer'
 
 export default async function listarServico() {
-  const apiClient = new ApiClient()
-  const data = apiClient.get('servico/', 'listaServico')
+  const api = new ApiServer()
+  const data = api.get('servico/', 'listaServico')
 
   return data
 }

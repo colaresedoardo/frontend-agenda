@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button } from '@mui/material'
+import { Box, Button, List, ListItem, ListItemButton } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 
@@ -98,26 +98,33 @@ export default function ListarData() {
       ])
     }
   }
-
+  const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]
+  console.log(dataPreenchida)
   return (
-    <Box display={'flex'}>
-      <Button onClick={atualizarSequenciaParaAtras}>{'<'}</Button>
-      {sequenciaDias.map((dia) => (
-        <Button
-          key={dia}
-          onClick={() => {
-            salvarDataNoContexto(dia)
-          }}
-        >
-          <Box>
-            <Box>
-              {converteDiaDoMes(dia)}/{converterMes(dia)}
-            </Box>
-            <Box>{nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}</Box>
-          </Box>
-        </Button>
-      ))}
-      <Button onClick={atualizarSequenciaParaFrente}>{'>'}</Button>
-    </Box>
+    <List>
+      <ListItem>
+        <Button onClick={atualizarSequenciaParaAtras}>{'<'}</Button>
+        {sequenciaDias.map((dia) => (
+          <>
+            {' '}
+            <ListItemButton
+              key={dia}
+              onClick={() => {
+                salvarDataNoContexto(dia)
+              }}
+              selected={dataPreenchida == dia}
+            >
+              <Box>
+                <Box>
+                  {converteDiaDoMes(dia)}/{converterMes(dia)}
+                </Box>
+                <Box>{nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}</Box>
+              </Box>
+            </ListItemButton>
+          </>
+        ))}
+        <Button onClick={atualizarSequenciaParaFrente}>{'>'}</Button>
+      </ListItem>
+    </List>
   )
 }

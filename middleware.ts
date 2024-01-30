@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 
 const authRoutes = ['/about/*', '/servico/*']
 
@@ -17,11 +16,7 @@ export async function middleware(request: NextRequest) {
     const apiUrl = process.env.API_URL + 'token/verify/'
 
     const path = request.nextUrl.pathname
-    if (
-      authRoutes.some((pattern) =>
-        matchesWildcard(request.nextUrl.pathname, pattern),
-      )
-    ) {
+    if (authRoutes.some((pattern) => matchesWildcard(path, pattern))) {
       if (auth != undefined) {
         const resposta = await fetch(apiUrl, {
           method: 'POST',
@@ -40,6 +35,8 @@ export async function middleware(request: NextRequest) {
           console.log('não deu certo')
           return NextResponse.redirect(process.env.NEXTAUTH_URL + 'login')
         }
+      } else {
+        return NextResponse.redirect(process.env.NEXTAUTH_URL + 'login')
       }
     }
   } catch (err) {

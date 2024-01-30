@@ -2,10 +2,29 @@ import { Avatar, Box, Button, Typography } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 
-export default function SelecionarHorario() {
+import useSWR from 'swr'
+import { fetcher } from '../fetch/ApiClient'
+import { trazerDataFormatoAmericano } from '../utils'
+
+type config = {
+  horaInicial?: string
+  horaFinal?: string
+  intervalo_entre_horario?: number
+  dataInicial?: string
+  dataFinal?: string
+}
+type Props = {
+  configuracao: config[]
+}
+export default function SelecionarHorario(props: Props) {
+  const configuracao = props.configuracao[0]
   const [horaInical, setHoraInicial] = useState(8)
-  const [horaFinal, setHoraFinal] = useState(17)
-  const [intervalo, setIntervalo] = useState(30)
+  const [horaFinal, setHoraFinal] = useState(20)
+  const [intervalo, setIntervalo] = useState(
+    configuracao.intervalo_entre_horario
+      ? configuracao.intervalo_entre_horario
+      : 30,
+  )
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
 
@@ -14,50 +33,98 @@ export default function SelecionarHorario() {
     const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
     const dataAnterior = evento?.evento.map((evento) => evento.data_inicio)[0]
     const profissional = evento?.evento.map((evento) => evento.profissional)[0]
-
+    const nome = evento?.evento.map((evento) => evento.nome)[0]
+    const numero = evento?.evento.map((evento) => evento.numero)[0]
     evento?.setEvento([
       {
         hora: hora,
         servico: servicoAnterior!,
         data_inicio: dataAnterior,
         profissional: profissional!,
+        nome: nome!,
+        numero: numero!,
       },
     ])
   }
+  const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
+  const profissional = evento?.evento.map(
+    (evento) => evento.profissional?.id,
+  )[0]
+  const parametros = { data_inicio: diaSelecionado, profissional: profissional }
+  const { data, error, isLoading } = useSWR('evento/', (url) =>
+    fetcher(url, parametros),
+  )
+  const resultado = listaDeHoras.filter(
+    (hora) => !data?.some((obj) => obj.horario.substring(0, 5) == hora),
+  )
   useEffect(() => {
+    // setListaDeHoras([])
     const horas = []
     const conjuntos = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
-    console.log(conjuntos.has(8))
+
+    const dataHoraLocal = new Date()
+    const dataSelecionada = new Date(`${diaSelecionado}T00:00`)
+    const dataSelecioandaFormatada = trazerDataFormatoAmericano(dataSelecionada)
+    const horaLocal = dataHoraLocal.getHours()
+    const dataFormatada = trazerDataFormatoAmericano(dataHoraLocal)
     for (let hora = horaInical; hora <= horaFinal; hora++) {
       for (let minuto = 0; minuto < 60; minuto += intervalo) {
-        if (conjuntos.has(hora) && minuto == 0) {
-          horas.push(`0${hora}:${minuto}0`)
-        } else if (conjuntos.has(hora)) {
-          horas.push(`0${hora}:${minuto}`)
-        } else if (minuto == 0) {
-          horas.push(`${hora}:${minuto}0`)
-        } else {
-          horas.push(`${hora}:${minuto}`)
+        //Condição para verificar se já passou o horário do dia
+        if (hora >= horaLocal && dataSelecioandaFormatada == dataFormatada) {
+          if (conjuntos.has(hora) && minuto == 0) {
+            horas.push(`0${hora}:${minuto}0`)
+          } else if (conjuntos.has(hora)) {
+            horas.push(`0${hora}:${minuto}`)
+          } else if (minuto == 0) {
+            horas.push(`${hora}:${minuto}0`)
+          } else {
+            horas.push(`${hora}:${minuto}`)
+          }
+        } else if (dataSelecioandaFormatada != dataFormatada) {
+          if (conjuntos.has(hora) && minuto == 0) {
+            horas.push(`0${hora}:${minuto}0`)
+          } else if (conjuntos.has(hora)) {
+            horas.push(`0${hora}:${minuto}`)
+          } else if (minuto == 0) {
+            horas.push(`${hora}:${minuto}0`)
+          } else {
+            horas.push(`${hora}:${minuto}`)
+          }
         }
       }
     }
+    // Verifica se as horas estão preenchidas no evento e mostra as horas restantes
+
+    console.log('resultado aqui')
+    console.log(resultado)
+    console.log('data aqui')
+    console.log(data)
+    console.log('dia selcionado ' + diaSelecionado)
     if (listaDeHoras.length == 0) {
       setListaDeHoras(horas)
     }
   })
-  console.log(evento)
+  console.log(resultado)
   return (
     <Box>
-      {listaDeHoras.map((hora) => (
-        <Button
-          onClick={() => {
-            salvarHoraNoContexto(hora)
-          }}
-          key={hora}
-        >
-          {hora}
-        </Button>
-      ))}
+      {resultado.length > 0 ? (
+        <>
+          {resultado.map((hora) => (
+            <Button
+              onClick={() => {
+                salvarHoraNoContexto(hora)
+              }}
+              key={hora}
+            >
+              {hora}
+            </Button>
+          ))}
+        </>
+      ) : (
+        <>
+          <Typography>Loading</Typography>
+        </>
+      )}
     </Box>
   )
 }

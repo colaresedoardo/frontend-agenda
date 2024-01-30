@@ -1,12 +1,13 @@
 'use server'
 
 import { EventoModelo } from '@/app/agenda/Contexto'
-import ApiClient from '@/app/fetch/ApiClient'
-import ApiWhatsapp from '@/app/fetch/apiWhatsapp'
+
+import ApiServer from '@/app/fetch/ApiServer'
+import ApiWhatsapp from '@/app/fetch/ApiWhatsapp'
 import { converterData } from '@/app/utils'
 
 export default async function enviarMensagem(formData: EventoModelo) {
-  const apiClient = new ApiClient()
+  const apiClient = new ApiServer()
   const bodyRequest = {
     data_inicio: formData.data_inicio,
     data_fim: formData.data_inicio,
@@ -32,8 +33,8 @@ export default async function enviarMensagem(formData: EventoModelo) {
     const resultado = await response.json()
     console.log('whatsapp')
     console.log(resultado)
-    if (resultado['error']['error_data']['details']) {
-      const error = resultado['error']['error_data']['details']
+    if (resultado['error']['message']) {
+      const error = resultado['error']['message']
       return {
         sucesso: true,
         messagem: 'Inserido com sucesso no agendamento',

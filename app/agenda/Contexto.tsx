@@ -6,6 +6,7 @@ import PassoPassoAgendamento from './Passo'
 type Props = {
   servicos: []
   profissionais: []
+  configuracao: object
 }
 type ServicoType = {
   id: number
@@ -19,8 +20,8 @@ type ProfissionalType = {
 }
 
 export type EventoModelo = {
-  nome: string
-  numero: string
+  nome?: string
+  numero?: string
   servico: ServicoType
   profissional?: ProfissionalType
   data_inicio?: string
@@ -41,6 +42,7 @@ export default function Contexto(props: Props) {
       <PassoPassoAgendamento
         servicos={props.servicos}
         profissionais={props.profissionais}
+        configuracao={props.configuracao}
       />
     </ContextoEvento.Provider>
   )

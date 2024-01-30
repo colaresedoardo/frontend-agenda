@@ -1,9 +1,9 @@
 'use server'
 
+import ApiServer from '@/app/fetch/ApiServer'
 import { revalidateTag } from 'next/cache'
-import ApiClient from '@/app/fetch/ApiClient'
+
 export default async function cadastrarServico(formData: FormData) {
-  'use server'
   if (!formData.get('descricao_modelo_ia')) {
     return {
       sucesso: false,
@@ -12,7 +12,7 @@ export default async function cadastrarServico(formData: FormData) {
   }
 
   const form = { descricao: formData.get('descricao_modelo_ia') }
-  const apiClient = new ApiClient()
+  const apiClient = new ApiServer()
   const resposta = await apiClient.post('servico/', form)
 
   if (resposta['mensagem'] == 'Sucesso') {
