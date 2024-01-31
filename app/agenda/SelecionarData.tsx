@@ -1,8 +1,16 @@
 'use client'
-import { Box, Button, List, ListItem, ListItemButton } from '@mui/material'
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+} from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
-
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 export default function ListarData() {
   const nomesDosDiasDaSemana = [
     'Domingo',
@@ -101,30 +109,47 @@ export default function ListarData() {
   const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]
   console.log(dataPreenchida)
   return (
-    <List>
-      <ListItem>
-        <Button onClick={atualizarSequenciaParaAtras}>{'<'}</Button>
-        {sequenciaDias.map((dia) => (
-          <>
-            {' '}
-            <ListItemButton
-              key={dia}
-              onClick={() => {
-                salvarDataNoContexto(dia)
-              }}
-              selected={dataPreenchida == dia}
-            >
-              <Box>
+    <Box display={'flex'}>
+      <Button onClick={atualizarSequenciaParaAtras}>
+        <ArrowLeftIcon></ArrowLeftIcon>
+      </Button>
+      <List>
+        <ListItem
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          {sequenciaDias.map((dia) => (
+            <>
+              {' '}
+              <ListItemButton
+                key={dia}
+                onClick={() => {
+                  salvarDataNoContexto(dia)
+                }}
+                selected={dataPreenchida == dia}
+              >
                 <Box>
-                  {converteDiaDoMes(dia)}/{converterMes(dia)}
+                  <Typography>
+                    {converteDiaDoMes(dia)}/{converterMes(dia)}
+                  </Typography>
+
+                  <Box>
+                    <Typography>
+                      {nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box>{nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}</Box>
-              </Box>
-            </ListItemButton>
-          </>
-        ))}
-        <Button onClick={atualizarSequenciaParaFrente}>{'>'}</Button>
-      </ListItem>
-    </List>
+              </ListItemButton>
+            </>
+          ))}
+        </ListItem>
+      </List>
+      <Button onClick={atualizarSequenciaParaFrente}>
+        <ArrowRightIcon></ArrowRightIcon>
+      </Button>
+    </Box>
   )
 }

@@ -1,5 +1,5 @@
 'use client'
-import { Box, InputAdornment, TextField } from '@mui/material'
+import { Box, InputAdornment, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 
 export default function FormFinal() {
@@ -18,7 +18,8 @@ export default function FormFinal() {
   console.log('dentro form')
   console.log(formulario)
   return (
-    <Box>
+    <Box display={'flex'} flexDirection={'column'} gap={1}>
+      <Typography>Digite seus dados para a equipe entrar em contato</Typography>
       <TextField
         required
         name="nome"

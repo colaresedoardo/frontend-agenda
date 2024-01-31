@@ -34,10 +34,16 @@ export default function SelecionarProfissional(props: Props) {
     (evento) => evento.profissional,
   )[0]
   return (
-    <List>
-      <ListItem>
-        {professionais.map((profissional) => (
-          <Box key={profissional.id}>
+    <Box display={'flex'}>
+      <List>
+        <ListItem
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          {professionais.map((profissional) => (
             <ListItemButton
               key={profissional.id}
               onClick={() => {
@@ -50,11 +56,11 @@ export default function SelecionarProfissional(props: Props) {
               }
             >
               <Avatar sx={{ width: 60, height: 60 }}>N</Avatar>
-              <Box>{profissional.nome}</Box>
+              <Typography>{profissional.nome}</Typography>
             </ListItemButton>
-          </Box>
-        ))}
-      </ListItem>
-    </List>
+          ))}
+        </ListItem>
+      </List>
+    </Box>
   )
 }

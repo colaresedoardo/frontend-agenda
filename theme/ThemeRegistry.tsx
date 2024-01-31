@@ -62,6 +62,16 @@ const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1rem',
+        },
+      },
+    },
   },
 }
 const theme = createTheme(themeOptions)

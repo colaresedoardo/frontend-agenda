@@ -88,7 +88,11 @@ export default function PassoPassoAgendamento(props: Props) {
       encType="multipart/form-data"
       onSubmit={onSubmit}
     >
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper
+        activeStep={activeStep}
+        alternativeLabel
+        sx={{ overflow: 'auto' }}
+      >
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -105,10 +109,10 @@ export default function PassoPassoAgendamento(props: Props) {
         //   justifyContent: 'space-around',
         // }}
       >
-        <Grid item md={4}>
+        <Grid item md={4} xs={12} sm={12} justifyContent={'center'}>
           <ResumoServico />
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12} sm={12}>
           {activeStep == 0 && <MostrarServicos servicos={props.servicos} />}
           {activeStep == 1 && <ListarData></ListarData>}
           {activeStep == 2 && (
@@ -123,38 +127,41 @@ export default function PassoPassoAgendamento(props: Props) {
           )}
           {activeStep == 4 && <FormFinal></FormFinal>}
         </Grid>
-      </Grid>
-
-      <Box
-        display={'flex'}
-        gap={1}
-        textAlign={'center'}
-        justifyContent={'center'}
-      >
-        <Button
-          variant="outlined"
-          startIcon={<ArrowLeftIcon />}
-          onClick={handleBack}
-        >
-          voltar
-        </Button>
-        {activeStep == 4 ? (
-          <>
-            <Button type="submit">enviar</Button>
-          </>
-        ) : (
-          <>
-            {' '}
+        <Grid item xs={12}>
+          <Box
+            display={'flex'}
+            gap={1}
+            textAlign={'center'}
+            justifyContent={'center'}
+          >
             <Button
               variant="outlined"
-              endIcon={<ArrowRightIcon />}
-              onClick={handleNext}
+              startIcon={<ArrowLeftIcon />}
+              onClick={handleBack}
             >
-              {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
+              voltar
             </Button>
-          </>
-        )}
-      </Box>
+            {activeStep == 4 ? (
+              <>
+                <Button endIcon={<SendIcon />} variant="outlined" type="submit">
+                  enviar
+                </Button>
+              </>
+            ) : (
+              <>
+                {' '}
+                <Button
+                  variant="outlined"
+                  endIcon={<ArrowRightIcon />}
+                  onClick={handleNext}
+                >
+                  {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
+                </Button>
+              </>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   )
 }

@@ -115,28 +115,36 @@ export default function SelecionarHorario(props: Props) {
   })
   console.log(resultado)
   return (
-    <List>
-      <ListItem>
-        {resultado.length > 0 ? (
-          <Box display={'flex'}>
-            {resultado.map((hora) => (
-              <ListItemButton
-                onClick={() => {
-                  salvarHoraNoContexto(hora)
-                }}
-                key={hora}
-                selected={horaSelecionada ? horaSelecionada == hora : false}
-              >
-                {hora}
-              </ListItemButton>
-            ))}
-          </Box>
-        ) : (
-          <>
-            <Typography>Loading</Typography>
-          </>
-        )}
-      </ListItem>
-    </List>
+    <Box>
+      <List>
+        <ListItem
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          {resultado.length > 0 ? (
+            <>
+              {resultado.map((hora) => (
+                <ListItemButton
+                  onClick={() => {
+                    salvarHoraNoContexto(hora)
+                  }}
+                  key={hora}
+                  selected={horaSelecionada ? horaSelecionada == hora : false}
+                >
+                  <Typography>{hora}</Typography>
+                </ListItemButton>
+              ))}
+            </>
+          ) : (
+            <>
+              <Typography>Loading</Typography>
+            </>
+          )}
+        </ListItem>
+      </List>
+    </Box>
   )
 }

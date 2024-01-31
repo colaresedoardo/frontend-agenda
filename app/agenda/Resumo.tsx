@@ -10,7 +10,7 @@ export default function ResumoServico() {
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        // maxWidth: 345,
         height: '245px',
         backgroundColor: theme.palette.secondary.main,
       }}
