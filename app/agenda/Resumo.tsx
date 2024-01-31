@@ -40,59 +40,74 @@ export default function ResumoServico() {
                     {event.servico?.nome}
                   </Typography>
                 </Box>
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                  }}
-                  color={theme.palette.info.main}
-                >
-                  valor: {event.servico?.valor}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                  }}
-                  color={theme.palette.info.main}
-                >
-                  tempo médio: {event.servico?.tempo_servico}
-                </Typography>
+                <Box display={'flex'} gap={1} color={theme.palette.info.main}>
+                  valor:
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                    color={theme.palette.info.main}
+                  >
+                    {event.servico?.valor}
+                  </Typography>
+                </Box>
+                <Box display={'flex'} gap={1} color={theme.palette.info.main}>
+                  tempo médio:
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                    color={theme.palette.info.main}
+                  >
+                    {event.servico?.tempo_servico} minutos
+                  </Typography>
+                </Box>
               </>
             )}
             {event.data_inicio && (
               <>
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                  }}
-                  color={theme.palette.info.main}
-                >
-                  dia: {converterData(event.data_inicio)}
-                </Typography>
+                <Box display={'flex'} gap={1} color={theme.palette.info.main}>
+                  dia:
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                    color={theme.palette.info.main}
+                  >
+                    {converterData(event.data_inicio)}
+                  </Typography>
+                </Box>
               </>
             )}
 
             {event.hora && (
               <>
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                  }}
-                  color={theme.palette.info.main}
-                >
-                  horário: {event.hora}
-                </Typography>
+                <Box display={'flex'} gap={1} color={theme.palette.info.main}>
+                  horário:
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                    color={theme.palette.info.main}
+                  >
+                    {event.hora}
+                  </Typography>
+                </Box>
               </>
             )}
             {event.profissional && (
               <>
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                  }}
-                  color={theme.palette.info.main}
-                >
-                  profissional: {event.profissional.nome}
-                </Typography>
+                <Box display={'flex'} gap={1} color={theme.palette.info.main}>
+                  profissional:
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                    color={theme.palette.info.main}
+                  >
+                    {event.profissional.nome}
+                  </Typography>
+                </Box>
               </>
             )}
           </Box>
