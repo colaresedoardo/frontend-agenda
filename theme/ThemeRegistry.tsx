@@ -19,10 +19,13 @@ const themeOptions: ThemeOptions = {
       default: '#ffff',
     },
     primary: {
-      main: '#A52A2A',
+      main: '#EF5350',
     },
     secondary: {
-      main: '#efac71',
+      main: '#EF9A9A',
+    },
+    info: {
+      main: '#ffff',
     },
   },
   components: {
@@ -31,7 +34,7 @@ const themeOptions: ThemeOptions = {
         root: ({ ownerState, theme }) => ({
           ':hover': {
             backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.primary.main,
+            color: '#ffff',
             '.MuiListItemIcon-root': {
               color: theme.palette.primary.main,
             },
@@ -41,7 +44,7 @@ const themeOptions: ThemeOptions = {
               backgroundColor: theme.palette.secondary.main,
             },
             backgroundColor: theme.palette.secondary.main,
-            color: theme.palette.primary.main,
+            color: '#ffff',
 
             '.MuiListItemIcon-root': {
               color: theme.palette.secondary.main,
@@ -49,6 +52,14 @@ const themeOptions: ThemeOptions = {
           },
           borderRadius: theme.spacing(2),
         }),
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+          zIndex: 1,
+        },
       },
     },
   },

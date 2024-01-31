@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Typography } from '@mui/material'
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+} from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 
@@ -57,6 +65,7 @@ export default function SelecionarHorario(props: Props) {
   const resultado = listaDeHoras.filter(
     (hora) => !data?.some((obj) => obj.horario.substring(0, 5) == hora),
   )
+  const horaSelecionada = evento?.evento.map((evento) => evento.hora)[0]
   useEffect(() => {
     // setListaDeHoras([])
     const horas = []
@@ -106,25 +115,28 @@ export default function SelecionarHorario(props: Props) {
   })
   console.log(resultado)
   return (
-    <Box>
-      {resultado.length > 0 ? (
-        <>
-          {resultado.map((hora) => (
-            <Button
-              onClick={() => {
-                salvarHoraNoContexto(hora)
-              }}
-              key={hora}
-            >
-              {hora}
-            </Button>
-          ))}
-        </>
-      ) : (
-        <>
-          <Typography>Loading</Typography>
-        </>
-      )}
-    </Box>
+    <List>
+      <ListItem>
+        {resultado.length > 0 ? (
+          <Box display={'flex'}>
+            {resultado.map((hora) => (
+              <ListItemButton
+                onClick={() => {
+                  salvarHoraNoContexto(hora)
+                }}
+                key={hora}
+                selected={horaSelecionada ? horaSelecionada == hora : false}
+              >
+                {hora}
+              </ListItemButton>
+            ))}
+          </Box>
+        ) : (
+          <>
+            <Typography>Loading</Typography>
+          </>
+        )}
+      </ListItem>
+    </List>
   )
 }

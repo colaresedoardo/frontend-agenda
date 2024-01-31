@@ -2,11 +2,13 @@ import { Box, List, ListItem, ListItemButton, Typography } from '@mui/material'
 
 import { useContext } from 'react'
 import { ContextoEvento } from './Contexto'
+import { useTheme } from '@emotion/react'
 type Props = {
   servicos: []
 }
 export default function MostrarServicos(props: Props) {
   const servicos = props.servicos
+  const theme = useTheme()
   const evento = useContext(ContextoEvento)
   const salvarServicoNoContexto = (servico) => {
     const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]
@@ -30,7 +32,9 @@ export default function MostrarServicos(props: Props) {
   console.log(idServico)
   return (
     <>
-      <Typography variant="h4">Serviços</Typography>
+      <Typography variant="h4" color={theme.palette.primary.main}>
+        Serviços
+      </Typography>
       <Box sx={{ maxHeight: '60vh', overflow: 'auto' }}>
         <List>
           {servicos.map((servico) => (

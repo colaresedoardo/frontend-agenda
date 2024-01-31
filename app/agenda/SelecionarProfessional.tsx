@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Typography } from '@mui/material'
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+} from '@mui/material'
 import { useContext } from 'react'
 import { ContextoEvento } from './Contexto'
 
@@ -22,20 +30,31 @@ export default function SelecionarProfissional(props: Props) {
       },
     ])
   }
+  const profissionalSelecionado = evento?.evento.map(
+    (evento) => evento.profissional,
+  )[0]
   return (
-    <Box display={'flex'} gap={3} textAlign={'center'}>
-      {professionais.map((profissional) => (
-        <Button
-          key={profissional.id}
-          sx={{ display: 'flex', flexDirection: 'column' }}
-          onClick={() => {
-            salvarProfissionalNoContexto(profissional)
-          }}
-        >
-          <Avatar sx={{ width: 60, height: 60 }}>N</Avatar>
-          <Box>{profissional.nome}</Box>
-        </Button>
-      ))}
-    </Box>
+    <List>
+      <ListItem>
+        {professionais.map((profissional) => (
+          <Box key={profissional.id}>
+            <ListItemButton
+              key={profissional.id}
+              onClick={() => {
+                salvarProfissionalNoContexto(profissional)
+              }}
+              selected={
+                profissionalSelecionado
+                  ? profissional.id == profissionalSelecionado.id
+                  : false
+              }
+            >
+              <Avatar sx={{ width: 60, height: 60 }}>N</Avatar>
+              <Box>{profissional.nome}</Box>
+            </ListItemButton>
+          </Box>
+        ))}
+      </ListItem>
+    </List>
   )
 }
