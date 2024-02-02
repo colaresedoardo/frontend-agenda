@@ -7,16 +7,16 @@ import {
   Typography,
 } from '@mui/material'
 import { useContext } from 'react'
-import { ContextoEvento } from './Contexto'
+import { ContextoEvento, ProfissionalType } from './Contexto'
 
 type Props = {
   profissionais: []
 }
 export default function SelecionarProfissional(props: Props) {
-  const professionais = props.profissionais
+  const professionais: ProfissionalType[] = props.profissionais
   const evento = useContext(ContextoEvento)
 
-  const salvarProfissionalNoContexto = (profissinonal) => {
+  const salvarProfissionalNoContexto = (profissinonal: ProfissionalType) => {
     const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
     const dataAnterior = evento?.evento.map((evento) => evento.data_inicio)[0]
     const horario = evento?.evento.map((evento) => evento.hora)[0]

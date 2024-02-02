@@ -1,7 +1,7 @@
 'use client'
 import { Box, Button, Grid, Step, StepLabel, Stepper } from '@mui/material'
 import MostrarServicos from './ListarServicos'
-import { useContext, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
@@ -45,7 +45,7 @@ export default function PassoPassoAgendamento(props: Props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  async function onSubmit(e) {
+  async function onSubmit(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault()
     console.log(e.target.numero.value)
     const numero = e.target.numero.value

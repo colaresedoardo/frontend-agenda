@@ -15,7 +15,7 @@ class ApiServer {
     endpoint: string,
     nomeParaRevalidarConsulta?: string,
     queryParams?: Record<string, string>,
-  ): Promise<unknown> {
+  ): Promise<[]> {
     const url = new URL(endpoint, this.baseUrl)
 
     if (queryParams) {

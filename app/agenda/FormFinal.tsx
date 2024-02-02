@@ -1,6 +1,6 @@
 'use client'
 import { Box, InputAdornment, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 export default function FormFinal() {
   const [formulario, setFormulario] = useState({
@@ -8,7 +8,7 @@ export default function FormFinal() {
     numero: '',
     // Outros campos do formulário...
   })
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormulario((prevFormulario) => ({
       ...prevFormulario,

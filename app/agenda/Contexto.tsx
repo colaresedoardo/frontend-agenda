@@ -8,15 +8,15 @@ type Props = {
   profissionais: []
   configuracao: object
 }
-type ServicoType = {
+export type ServicoType = {
   id: number
   nome?: string
   tempo_servico?: string
   valor?: string
 }
-type ProfissionalType = {
+export type ProfissionalType = {
   id: number
-  nome: string
+  nome: string | undefined
 }
 
 export type EventoModelo = {

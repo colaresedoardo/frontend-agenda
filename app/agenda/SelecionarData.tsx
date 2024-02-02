@@ -24,7 +24,7 @@ export default function ListarData() {
 
   const [dataAtual, setDataAtual] = useState(new Date())
 
-  const [sequenciaDias, setSequenciaDias] = useState([])
+  const [sequenciaDias, setSequenciaDias] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
   const converteDiaDoMes = (data: string) => {
     const dataBruta = new Date(`${data}T00:00:00`)
