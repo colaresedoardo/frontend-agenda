@@ -5,7 +5,7 @@ import { ChangeEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
-import SelecionarHorario from './SelecionarHorario'
+import SelecionarHorario, { config } from './SelecionarHorario'
 import { ContextoEvento, EventoModelo } from './Contexto'
 import FormFinal from './FormFinal'
 import enviarMensagem from '../actions/servico/enviarMensagem'
@@ -15,7 +15,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 type Props = {
   servicos: []
   profissionais: []
-  configuracao: object
+  configuracao: config[]
 }
 export default function PassoPassoAgendamento(props: Props) {
   const steps = [
@@ -76,7 +76,7 @@ export default function PassoPassoAgendamento(props: Props) {
       sx={{ width: '100%' }}
       component={'form'}
       // action={enviarMensagem}
-      encType="multipart/form-data"
+
       onSubmit={onSubmit}
     >
       <Stepper

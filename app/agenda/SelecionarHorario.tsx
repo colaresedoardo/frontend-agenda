@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import { fetcher } from '../fetch/ApiClient'
 import { trazerDataFormatoAmericano } from '../utils'
 
-type config = {
+export type config = {
   horaInicial?: string
   horaFinal?: string
   intervalo_entre_horario?: number

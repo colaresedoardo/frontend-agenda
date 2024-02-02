@@ -6,9 +6,24 @@ import { useTheme } from '@emotion/react'
 type Props = {
   servicos: []
 }
+export type CustomPalette = {
+  palette: {
+    primary: {
+      main: string
+      contrastText: string
+    }
+    secondary: {
+      main: string
+      contrastText: string
+    }
+    info: { main: string }
+  }
+
+  // Adicione outras propriedades personalizadas conforme necessário
+}
 export default function MostrarServicos(props: Props) {
   const servicos: ServicoType[] = props.servicos
-  const theme = useTheme()
+  const theme = useTheme() as CustomPalette
   const evento = useContext(ContextoEvento)
   const salvarServicoNoContexto = (servico: ServicoType) => {
     const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]

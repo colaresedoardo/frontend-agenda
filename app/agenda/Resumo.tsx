@@ -3,10 +3,11 @@ import { useContext } from 'react'
 import { ContextoEvento } from './Contexto'
 import { converterData } from '../utils'
 import { useTheme } from '@emotion/react'
+import { CustomPalette } from './ListarServicos'
 
 export default function ResumoServico() {
   const evento = useContext(ContextoEvento)
-  const theme = useTheme()
+  const theme = useTheme() as CustomPalette
   return (
     <Card
       sx={{
