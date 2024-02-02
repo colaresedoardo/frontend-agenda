@@ -2,11 +2,12 @@
 import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
 import PassoPassoAgendamento from './Passo'
+import { config } from './SelecionarHorario'
 
 type Props = {
   servicos: []
   profissionais: []
-  configuracao: object
+  configuracao: config[]
 }
 export type ServicoType = {
   id: number
