@@ -59,17 +59,16 @@ export default function PassoPassoAgendamento(props: Props) {
     const inicio = evento?.evento.map((event) => event.data_inicio)[0]
     const hora = evento?.evento.map((event) => event.hora)[0]
     const profissional = evento?.evento.map((event) => event.profissional)[0]
-    const objeto: EventoModelo = {
-      nome: nome,
-      numero: numero,
-      servico: servico!,
-      data_inicio: inicio,
-      hora: hora,
-      profissional: profissional,
-    }
 
+    const formDataObject = new FormData()
+    formDataObject.append('nome', nome)
+    formDataObject.append('numero', numero)
+    formDataObject.append('servico', JSON.stringify(servico))
+    formDataObject.append('data_inicio', JSON.stringify(inicio))
+    formDataObject.append('hora', JSON.stringify(hora))
+    formDataObject.append('profissional', JSON.stringify(profissional))
     // console.log(objeto)
-    const enviar = await enviarMensagem(objeto)
+    const enviar = await enviarMensagem(formDataObject)
     console.log(enviar)
   }
 
