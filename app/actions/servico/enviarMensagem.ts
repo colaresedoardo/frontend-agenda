@@ -21,14 +21,14 @@ export default async function enviarMensagem(formData: EventoModelo) {
   const resposta = await apiClient.post('evento/', bodyRequest)
 
   if (resposta['mensagem'] == 'Sucesso') {
-    const sequenciaTemplate = {
-      servico: formData.servico.nome,
-      valor: formData.servico.valor,
-      tempo: formData.servico.tempo_servico,
-      data_inicio: converterData(formData.data_inicio),
-      hora: formData.hora,
-      profissional: formData.profissional?.nome,
-    }
+    // const sequenciaTemplate = {
+    //   servico: formData.servico.nome,
+    //   valor: formData.servico.valor,
+    //   tempo: formData.servico.tempo_servico,
+    //   data_inicio: converterData(formData.data_inicio),
+    //   hora: formData.hora,
+    //   profissional: formData.profissional?.nome,
+    // }
     // const apiWhatsapp = new ApiWhatsapp('239619722559434', formData.numero)
     // const response = await apiWhatsapp.enviarMensagem(sequenciaTemplate)
     // const resultado = await response.json()

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 class ApiServer {
-  private baseUrl: string = process.env.API_URL
+  private baseUrl: string = process.env.API_URL!
 
   private async handleResponse(response: Response) {
     if (!response.ok) {
@@ -15,7 +15,7 @@ class ApiServer {
     endpoint: string,
     nomeParaRevalidarConsulta?: string,
     queryParams?: Record<string, string>,
-  ): Promise<any> {
+  ): Promise<unknown> {
     const url = new URL(endpoint, this.baseUrl)
 
     if (queryParams) {
@@ -48,7 +48,10 @@ class ApiServer {
     return this.handleResponse(response)
   }
 
-  async post(endpoint: string, data: Record<string, any>): Promise<any> {
+  async post(
+    endpoint: string,
+    data: Record<string, unknown>,
+  ): Promise<unknown> {
     const url = new URL(endpoint, this.baseUrl)
     const token = `Bearer  ${cookies().get('Authorization')?.value}`
     const response = await fetch(url.toString(), {
