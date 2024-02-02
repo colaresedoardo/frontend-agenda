@@ -29,33 +29,33 @@ export default async function enviarMensagem(formData: EventoModelo) {
       hora: formData.hora,
       profissional: formData.profissional?.nome,
     }
-    const apiWhatsapp = new ApiWhatsapp('239619722559434', formData.numero)
-    const response = await apiWhatsapp.enviarMensagem(sequenciaTemplate)
-    const resultado = await response.json()
+    // const apiWhatsapp = new ApiWhatsapp('239619722559434', formData.numero)
+    // const response = await apiWhatsapp.enviarMensagem(sequenciaTemplate)
+    // const resultado = await response.json()
     console.log('whatsapp')
-    console.log(resultado)
-    if (resultado['error']['message']) {
-      const error = resultado['error']['message']
-      return {
-        sucesso: true,
-        messagem: 'Inserido com sucesso no agendamento',
-        mensagemEnviadaWhatsapp: false,
-        errorWhat: error,
-      }
-    }
-    const mensagemEnvidada = resultado['messages'][0].message_status
-    if (mensagemEnvidada == 'accepted') {
-      return {
-        sucesso: true,
-        messagem: 'Inserido com sucesso no agendamento',
-        mensagemEnviadaWhatsapp: true,
-      }
-    } else {
-      return {
-        sucesso: true,
-        messagem: 'Inserido com sucesso no agendamento',
-        mensagemEnviadaWhatsapp: false,
-      }
-    }
+    // console.log(resultado)
+    // if (resultado['error']['message']) {
+    //   const error = resultado['error']['message']
+    //   return {
+    //     sucesso: true,
+    //     messagem: 'Inserido com sucesso no agendamento',
+    //     mensagemEnviadaWhatsapp: false,
+    //     errorWhat: error,
+    //   }
+    // }
+    // const mensagemEnvidada = resultado['messages'][0].message_status
+    // if (mensagemEnvidada == 'accepted') {
+    //   return {
+    //     sucesso: true,
+    //     messagem: 'Inserido com sucesso no agendamento',
+    //     mensagemEnviadaWhatsapp: true,
+    //   }
+    // } else {
+    //   return {
+    //     sucesso: true,
+    //     messagem: 'Inserido com sucesso no agendamento',
+    //     mensagemEnviadaWhatsapp: false,
+    //   }
+    // }
   }
 }
