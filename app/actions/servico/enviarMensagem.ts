@@ -7,7 +7,9 @@ import ApiServer from '@/app/fetch/ApiServer'
 
 // import { converterData } from '@/app/utils'
 type TipoBody = Record<string, string | number | undefined>
-export default async function enviarMensagem(formData: EventoModelo) {
+export default async function enviarMensagem(formDataRaw: FormData) {
+  const convertendo = formDataRaw as unknown
+  const formData = convertendo as EventoModelo
   const apiClient = new ApiServer()
   const bodyRequest: TipoBody = {
     data_inicio: formData.data_inicio,
