@@ -1,7 +1,7 @@
 'use client'
 import { Box, Button, Grid, Step, StepLabel, Stepper } from '@mui/material'
 import MostrarServicos from './ListarServicos'
-import { ChangeEvent, useContext, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
@@ -17,6 +17,7 @@ type Props = {
   profissionais: []
   configuracao: config[]
 }
+interface EventCustom extends FormEvent<HTMLFormElement> {}
 export default function PassoPassoAgendamento(props: Props) {
   const steps = [
     'Selecionar serviços',
@@ -45,11 +46,15 @@ export default function PassoPassoAgendamento(props: Props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  async function onSubmit(e: ChangeEvent<HTMLInputElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log(e.target.numero.value)
-    const numero = e.target.numero.value
-    const nome: string = e.target.nome.value
+    console.log(e.currentTarget.elements.namedItem('numero'))
+    const numero = (
+      e.currentTarget.elements.namedItem('numero') as HTMLInputElement
+    ).value
+    const nome: string = (
+      e.currentTarget.elements.namedItem('nome') as HTMLInputElement
+    ).value
     const servico = evento?.evento.map((event) => event.servico)[0]
     const inicio = evento?.evento.map((event) => event.data_inicio)[0]
     const hora = evento?.evento.map((event) => event.hora)[0]
