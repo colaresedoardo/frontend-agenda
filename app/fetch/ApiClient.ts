@@ -1,7 +1,7 @@
 import { getCookie } from 'cookies-next'
 export const fetcher = (
   recurso: string,
-  parametros?: Record<string, string>,
+  parametros?: Record<string, string | number | boolean>,
 ) => {
   const api = `${process.env.NEXT_PUBLIC_BACKEND_URL}${recurso}`
   const url = new URL(api!)

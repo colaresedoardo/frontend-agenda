@@ -53,7 +53,10 @@ export default function SelecionarHorario(props: Props) {
   const profissional = evento?.evento.map(
     (evento) => evento.profissional?.id,
   )[0]
-  const parametros = { data_inicio: diaSelecionado, profissional: profissional }
+  const parametros = {
+    data_inicio: diaSelecionado ? diaSelecionado : '',
+    profissional: profissional ? profissional : '',
+  }
   const { data } = useSWR('evento/', (url) => fetcher(url, parametros))
   const resultado = listaDeHoras.filter(
     (hora) =>
