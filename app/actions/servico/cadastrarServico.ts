@@ -2,7 +2,7 @@
 
 import ApiServer from '@/app/fetch/ApiServer'
 import { revalidateTag } from 'next/cache'
-
+type TipoBody = Record<string, string | number | undefined | null>
 export default async function cadastrarServico(formData: FormData) {
   if (!formData.get('descricao_modelo_ia')) {
     return {
@@ -11,7 +11,9 @@ export default async function cadastrarServico(formData: FormData) {
     }
   }
 
-  const form = { descricao: formData.get('descricao_modelo_ia') }
+  const form: TipoBody = {
+    descricao: String(formData.get('descricao_modelo_ia')),
+  }
   const apiClient = new ApiServer()
   const resposta = await apiClient.post('servico/', form)
 

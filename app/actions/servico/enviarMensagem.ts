@@ -6,15 +6,15 @@ import ApiServer from '@/app/fetch/ApiServer'
 // import ApiWhatsapp from '@/app/fetch/ApiWhatsapp'
 
 // import { converterData } from '@/app/utils'
-
+type TipoBody = Record<string, string | number | undefined>
 export default async function enviarMensagem(formData: EventoModelo) {
   const apiClient = new ApiServer()
-  const bodyRequest = {
+  const bodyRequest: TipoBody = {
     data_inicio: formData.data_inicio,
     data_fim: formData.data_inicio,
     horario: formData.hora,
     servico: formData.servico.id,
-    profissional: formData.profissional.id!,
+    profissional: formData?.profissional.id!,
     nome: formData.nome,
     numero: formData.numero,
   }
