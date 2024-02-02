@@ -16,6 +16,9 @@ export type config = {
 type Props = {
   configuracao: config[]
 }
+type EventoType = {
+  horario: string
+}
 export default function SelecionarHorario(props: Props) {
   const configuracao = props.configuracao[0]
   const [horaInical] = useState(8)
@@ -53,7 +56,8 @@ export default function SelecionarHorario(props: Props) {
   const parametros = { data_inicio: diaSelecionado, profissional: profissional }
   const { data } = useSWR('evento/', (url) => fetcher(url, parametros))
   const resultado = listaDeHoras.filter(
-    (hora) => !data?.some((obj) => obj.horario.substring(0, 5) == hora),
+    (hora) =>
+      !data?.some((obj: EventoType) => obj.horario.substring(0, 5) == hora),
   )
   const horaSelecionada = evento?.evento.map((evento) => evento.hora)[0]
   useEffect(() => {
