@@ -50,8 +50,8 @@ class ApiServer {
 
   async post(
     endpoint: string,
-    data: Record<string, unknown>,
-  ): Promise<unknown> {
+    data: Record<string, object>,
+  ): Promise<object[]> {
     const url = new URL(endpoint, this.baseUrl)
     const token = `Bearer  ${cookies().get('Authorization')?.value}`
     const response = await fetch(url.toString(), {
