@@ -1,16 +1,7 @@
 'use client'
-import {
-  Box,
-  Button,
-  Grid,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  TextField,
-} from '@mui/material'
+import { Box, Button, Grid, Step, StepLabel, Stepper } from '@mui/material'
 import MostrarServicos from './ListarServicos'
-import { FormEvent, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
