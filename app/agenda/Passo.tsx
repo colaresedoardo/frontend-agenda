@@ -1,7 +1,7 @@
 'use client'
 import { Box, Button, Grid, Step, StepLabel, Stepper } from '@mui/material'
 import MostrarServicos from './ListarServicos'
-import { ChangeEvent, FormEvent, useContext, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
@@ -17,7 +17,7 @@ type Props = {
   profissionais: []
   configuracao: config[]
 }
-interface EventCustom extends FormEvent<HTMLFormElement> {}
+
 export default function PassoPassoAgendamento(props: Props) {
   const steps = [
     'Selecionar serviços',
