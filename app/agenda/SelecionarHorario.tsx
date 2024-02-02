@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemButton,
-  Typography,
-} from '@mui/material'
+import { Box, List, ListItem, ListItemButton, Typography } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 
@@ -26,9 +18,9 @@ type Props = {
 }
 export default function SelecionarHorario(props: Props) {
   const configuracao = props.configuracao[0]
-  const [horaInical, setHoraInicial] = useState(8)
-  const [horaFinal, setHoraFinal] = useState(20)
-  const [intervalo, setIntervalo] = useState(
+  const [horaInical] = useState(8)
+  const [horaFinal] = useState(20)
+  const [intervalo] = useState(
     configuracao.intervalo_entre_horario
       ? configuracao.intervalo_entre_horario
       : 30,
@@ -59,9 +51,7 @@ export default function SelecionarHorario(props: Props) {
     (evento) => evento.profissional?.id,
   )[0]
   const parametros = { data_inicio: diaSelecionado, profissional: profissional }
-  const { data, error, isLoading } = useSWR('evento/', (url) =>
-    fetcher(url, parametros),
-  )
+  const { data } = useSWR('evento/', (url) => fetcher(url, parametros))
   const resultado = listaDeHoras.filter(
     (hora) => !data?.some((obj) => obj.horario.substring(0, 5) == hora),
   )

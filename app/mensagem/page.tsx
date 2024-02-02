@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import MensagemWhatsapp from './MessagemWhatsapp'
 
 export default async function Page() {

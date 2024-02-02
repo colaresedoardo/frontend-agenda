@@ -1,8 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-
 export async function GET(request: Request) {
   console.log('aqui')
-
+  console.log(request)
   try {
     // Dados para a solicitação de obtenção do token
     process.env.API_URL
