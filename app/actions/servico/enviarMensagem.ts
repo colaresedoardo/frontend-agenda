@@ -14,7 +14,7 @@ export default async function enviarMensagem(formData: EventoModelo) {
     data_fim: formData.data_inicio,
     horario: formData.hora,
     servico: formData.servico.id,
-    profissional: formData?.profissional.id!,
+    profissional: formData.profissional ? formData.profissional.id : undefined,
     nome: formData.nome,
     numero: formData.numero,
   }
