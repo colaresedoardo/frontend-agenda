@@ -23,26 +23,49 @@ class ApiServer {
         url.searchParams.append(key, queryParams[key]),
       )
     }
-    const token = `Bearer  ${cookies().get('Authorization')?.value}`
+    const autorizacao = cookies().get('Authorization')?.value
+    console.log('autorização')
+    console.log(autorizacao)
+    const token = `Bearer  ${autorizacao}`
     let response = null
     if (nomeParaRevalidarConsulta) {
-      response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
+      if (autorizacao) {
+        response = await fetch(url.toString(), {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
 
-        next: { tags: [nomeParaRevalidarConsulta] },
-      })
+          next: { tags: [nomeParaRevalidarConsulta] },
+        })
+      } else {
+        response = await fetch(url.toString(), {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+          next: { tags: [nomeParaRevalidarConsulta] },
+        })
+      }
     } else {
-      response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      })
+      if (autorizacao) {
+        response = await fetch(url.toString(), {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        })
+      } else {
+        response = await fetch(url.toString(), {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      }
     }
 
     return this.handleResponse(response)

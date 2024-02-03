@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const authRoutes = ['/about/*', '/servico/*']
+const authRoutes = ['/servico/*']
 
 function matchesWildcard(path: string, pattern: string): boolean {
   if (pattern.endsWith('/*')) {
