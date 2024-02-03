@@ -21,14 +21,13 @@ export type ProfissionalType = {
 }
 
 export type EventoModelo = {
-  nome?: string
+  nome?: string | null
   numero?: string
   servico: ServicoType
   profissional?: ProfissionalType
   data_inicio?: string
   data_fim?: string
   hora?: string
-  titulo?: string
 }
 type ContextoType = {
   evento: EventoModelo[]

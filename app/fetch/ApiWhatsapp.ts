@@ -3,7 +3,7 @@ class ApiWhatsapp {
   private token: string = `Bearer ${process.env.WHATSAPP_TOKEN}`
   private numeroCliente: string
   constructor(identificadorWhatsapp: string, numeroCliente: string) {
-    const url = `https://graph.facebook.com/v18.0/${identificadorWhatsapp}/messages`
+    const url = `https://graph.facebook.com/v19.0/${identificadorWhatsapp}/messages`
     this.baseUrl = url
     this.numeroCliente = `55${numeroCliente}`
   }

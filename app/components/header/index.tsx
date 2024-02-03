@@ -138,7 +138,7 @@ export default function PersistentDrawerLeft({
               color: theme.palette.primary.dark,
             }}
           >
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={handleDrawerClose}>
               <ListItemButton>
                 <ListItemIcon>
                   <MailIcon />
@@ -155,7 +155,7 @@ export default function PersistentDrawerLeft({
               color: theme.palette.primary.dark,
             }}
           >
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={handleDrawerClose}>
               <ListItemButton>
                 <ListItemIcon>
                   <MailIcon />

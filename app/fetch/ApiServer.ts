@@ -77,14 +77,29 @@ class ApiServer {
   ): Promise<Record<string, string | number | undefined | null>> {
     const url = new URL(endpoint, this.baseUrl)
     const token = `Bearer  ${cookies().get('Authorization')?.value}`
-    const response = await fetch(url.toString(), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    })
+    const autorizacao = cookies().get('Authorization')?.value
+    console.log('POST')
+    console.log(autorizacao)
+    let response = null
+    if (autorizacao) {
+      response = await fetch(url.toString(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      })
+    } else {
+      console.log('Senão')
+      response = await fetch(url.toString(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+    }
 
     return this.handleResponse(response)
   }

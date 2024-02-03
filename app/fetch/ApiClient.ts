@@ -1,4 +1,4 @@
-import { getCookie } from 'cookies-next'
+// import { getCookie } from 'cookies-next'
 export const fetcher = (
   recurso: string,
   parametros?: Record<string, string | number | boolean>,
@@ -12,12 +12,15 @@ export const fetcher = (
     })
   }
 
-  const token = getCookie('Authorization')
-  return fetch(url.toString(), {
+  // const token = getCookie('Authorization')
+  const resultado = fetch(url.toString(), {
     method: 'GET',
     headers: {
-      Authorization: 'Bearer ' + token,
+      // Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
   }).then((response) => response.json())
+  console.log('dentro')
+  console.log(resultado)
+  return resultado
 }

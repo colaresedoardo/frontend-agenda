@@ -8,9 +8,28 @@ import { converterData } from '@/app/utils'
 
 type TipoBody = Record<string, string | number | undefined | null>
 export default async function enviarMensagem(formDataRaw: FormData) {
-  const convertendo = formDataRaw as unknown
-  const formData = convertendo as EventoModelo
+  const servicoConvertido = formDataRaw.get('servico')?.toString()
+  const profissionalConvertido = formDataRaw.get('profissional')?.toString()
+  const formData: EventoModelo = {
+    nome: formDataRaw.get('nome')?.toString(),
+    data_fim: String(formDataRaw.get('data_fim')?.valueOf()),
+    servico: JSON.parse(servicoConvertido ? servicoConvertido : ''),
+    data_inicio: formDataRaw.get('data_inicio')?.toString(),
+    numero: formDataRaw.get('numero')?.toString(),
+    hora: formDataRaw.get('hora')?.toString(),
+    profissional: JSON.parse(
+      profissionalConvertido ? profissionalConvertido : '',
+    ),
+  }
   const apiClient = new ApiServer()
+  console.log('dados')
+
+  // const objeto: EventoModelo = {}
+  // formDataRaw.forEach((value, key) => {
+  //   const valor = value
+  //   objeto.push({ key, valor })
+  // })
+
   const bodyRequest: TipoBody = {
     data_inicio: formData.data_inicio,
     data_fim: formData.data_inicio,
@@ -20,6 +39,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
     nome: formData.nome,
     numero: formData.numero,
   }
+  console.log(bodyRequest)
   const resposta = await apiClient.post('evento/', bodyRequest)
 
   if (resposta['mensagem'] == 'Sucesso') {
@@ -34,7 +54,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
       profissional: formData.profissional?.nome,
     }
     const apiWhatsapp = new ApiWhatsapp(
-      '239619722559434',
+      '240819252441367',
       formData.numero ? formData.numero : '',
     )
     const response = await apiWhatsapp.enviarMensagem(sequenciaTemplate)
