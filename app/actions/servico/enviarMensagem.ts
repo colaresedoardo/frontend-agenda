@@ -54,7 +54,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
       profissional: formData.profissional?.nome,
     }
     const apiWhatsapp = new ApiWhatsapp(
-      '240819252441367',
+      '231990606658079',
       formData.numero ? formData.numero : '',
     )
     const response = await apiWhatsapp.enviarMensagem(sequenciaTemplate)

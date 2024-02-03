@@ -1,5 +1,13 @@
 'use client'
-import { Box, Button, Grid, Step, StepLabel, Stepper } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Button,
+  Grid,
+  Step,
+  StepLabel,
+  Stepper,
+} from '@mui/material'
 import MostrarServicos from './ListarServicos'
 import { FormEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
@@ -28,6 +36,9 @@ export default function PassoPassoAgendamento(props: Props) {
   ]
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set<number>())
+  const [sucesso, setSucesso] = useState(false)
+  const [fracasso, setFracasso] = useState(false)
+  const [mensagem, setMensagem] = useState('')
   const isStepSkipped = (step: number) => {
     return skipped.has(step)
   }
@@ -69,7 +80,14 @@ export default function PassoPassoAgendamento(props: Props) {
     formDataObject.append('profissional', JSON.stringify(profissional))
     // console.log(objeto)
     const enviar = await enviarMensagem(formDataObject)
+    console.log('aqui')
     console.log(enviar)
+    if (!enviar?.mensagemEnviadaWhatsapp || !enviar?.sucesso) {
+      setFracasso(true)
+      setMensagem('Erro ao enviar mensagem ' + enviar?.errorWhat)
+    } else {
+      setMensagem(enviar.messagem)
+    }
   }
 
   return (
@@ -154,6 +172,10 @@ export default function PassoPassoAgendamento(props: Props) {
                 </Button>
               </>
             )}
+          </Box>
+          <Box>
+            {sucesso && <Alert severity="success">Teste</Alert>}
+            {fracasso && <Alert severity="error">{mensagem}. </Alert>}
           </Box>
         </Grid>
       </Grid>
