@@ -34,7 +34,7 @@ type ContextoType = {
   evento: EventoModelo[]
   setEvento: Dispatch<SetStateAction<EventoModelo[]>>
 }
-export const ContextoEvento = createContext<ContextoType | undefined>(undefined)
+export const ContextoEvento = createContext<ContextoType | null>(null)
 export default function Contexto(props: Props) {
   const [evento, setEvento] = useState<EventoModelo[]>([{ servico: { id: 0 } }])
 

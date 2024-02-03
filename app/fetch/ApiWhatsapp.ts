@@ -10,6 +10,7 @@ class ApiWhatsapp {
   public preencherTemplate(valores: object) {
     const componentes: object[] = []
     Object.entries(valores).forEach(([_, valor]) => {
+      console.log(_)
       componentes.push({ type: 'text', text: valor })
     })
 
