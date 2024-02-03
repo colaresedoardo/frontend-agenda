@@ -36,7 +36,7 @@ export default function PassoPassoAgendamento(props: Props) {
   ]
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set<number>())
-  const [sucesso, setSucesso] = useState(false)
+  const [sucesso] = useState(false)
   const [fracasso, setFracasso] = useState(false)
   const [mensagem, setMensagem] = useState('')
   const isStepSkipped = (step: number) => {
