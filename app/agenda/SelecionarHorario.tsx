@@ -20,13 +20,13 @@ type EventoType = {
   horario: string
 }
 export default function SelecionarHorario(props: Props) {
-  const configuracao = props.configuracao[0]
+  const configuracao = props.configuracao[0] ? props.configuracao[0] : 60
   const [horaInical] = useState(8)
   const [horaFinal] = useState(20)
   const [intervalo] = useState(
     configuracao.intervalo_entre_horario
       ? configuracao.intervalo_entre_horario
-      : 30,
+      : 60,
   )
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
