@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 class ApiServer {
-  private baseUrl: string = process.env.API_URL!
+  private baseUrl: string = process.env.NEXT_PUBLIC_BACKEND_URL!
 
   private async handleResponse(response: Response) {
     if (!response.ok) {
