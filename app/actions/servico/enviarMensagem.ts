@@ -1,6 +1,6 @@
 'use server'
 
-import { EventoModelo } from '@/app/agenda/Contexto'
+import { EventoModelo } from '@/app/[slug]/agenda/Contexto'
 
 import ApiServer from '@/app/fetch/ApiServer'
 import ApiWhatsapp from '@/app/fetch/ApiWhatsapp'

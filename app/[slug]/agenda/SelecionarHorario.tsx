@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 
 import useSWR from 'swr'
-import { fetcher } from '../fetch/ApiClient'
-import { trazerDataFormatoAmericano } from '../utils'
+import { fetcher } from '../../fetch/ApiClient'
+import { trazerDataFormatoAmericano } from '../../utils'
 
 export type config = {
   horaInicial?: string

@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import { useContext } from 'react'
 import { ContextoEvento } from './Contexto'
-import { converterData } from '../utils'
+import { converterData } from '../../utils'
 import { useTheme } from '@emotion/react'
 import { CustomPalette } from './ListarServicos'
 

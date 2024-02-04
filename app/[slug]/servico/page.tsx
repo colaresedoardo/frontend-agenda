@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 
-import listarServico from '../actions/servico/listarServico'
+import listarServico from '../../actions/servico/listarServico'
 
 import TabelaComponent from './Tabela'
 

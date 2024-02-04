@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import LoadingButton from '@mui/lab/LoadingButton'
-import cadastrarServico from '../actions/servico/cadastrarServico'
+import cadastrarServico from '../../actions/servico/cadastrarServico'
 import { useFormStatus } from 'react-dom'
 import { useState } from 'react'
 export default function FormularioServico() {

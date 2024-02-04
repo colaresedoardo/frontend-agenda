@@ -20,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText'
 
 import MailIcon from '@mui/icons-material/Mail'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 const drawerWidth = 240
 
@@ -87,7 +88,9 @@ export default function PersistentDrawerLeft({
   const handleDrawerClose = () => {
     setOpen(false)
   }
-
+  const valor = useParams()
+  console.log('menu')
+  console.log(valor.slug)
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -132,7 +135,7 @@ export default function PersistentDrawerLeft({
         <Divider />
         <List>
           <Link
-            href="servico"
+            href={'/' + valor.slug + '/servico'}
             style={{
               textDecoration: 'none',
               color: theme.palette.primary.dark,
@@ -149,7 +152,7 @@ export default function PersistentDrawerLeft({
             </ListItem>
           </Link>
           <Link
-            href="agenda"
+            href={'/' + valor.slug + '/agenda'}
             style={{
               textDecoration: 'none',
               color: theme.palette.primary.dark,
