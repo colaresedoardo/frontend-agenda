@@ -12,12 +12,16 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import cadastrarServico from '../../actions/servico/cadastrarServico'
 import { useFormStatus } from 'react-dom'
 import { useState } from 'react'
-export default function FormularioServico() {
+type Props = {
+  slug: string
+}
+export default function FormularioServico(props: Props) {
   const [sucesso, setSucesso] = useState(false)
   const [fracasso, setFracasso] = useState(false)
   const [loading, setLoading] = useState(false)
   const [messagem, setMessagem] = useState('')
   async function clientAction(formData: FormData) {
+    formData.append('grupo', props.slug)
     const resultado = await cadastrarServico(formData)
     console.log(resultado)
     if (resultado['sucesso']) {
@@ -36,6 +40,8 @@ export default function FormularioServico() {
   }
   const { pending } = useFormStatus()
   console.log(pending)
+  console.log('aqui')
+  console.log(props.slug)
   return (
     <Box
       display={'flex'}

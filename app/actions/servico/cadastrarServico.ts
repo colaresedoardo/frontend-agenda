@@ -13,6 +13,7 @@ export default async function cadastrarServico(formData: FormData) {
 
   const form: TipoBody = {
     descricao: String(formData.get('descricao_modelo_ia')),
+    grupo: String(formData.get('grupo')),
   }
   const apiClient = new ApiServer()
   const resposta = await apiClient.post('servico/', form)
