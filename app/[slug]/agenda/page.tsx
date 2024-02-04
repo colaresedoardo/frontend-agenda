@@ -14,13 +14,14 @@ export default async function Home({ params }: { params: { slug: string } }) {
   const configuracao = await api.get('configuracao/', '', {
     grupo__identificador: params.slug,
   })
-
+  const identificarCliente = params.slug
   return (
     <Box>
       <Contexto
         servicos={servico}
         profissionais={profissionais}
         configuracao={configuracao}
+        identificarCliente={identificarCliente}
       ></Contexto>
     </Box>
   )

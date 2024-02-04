@@ -8,6 +8,7 @@ type Props = {
   servicos: []
   profissionais: []
   configuracao: config[]
+  identificarCliente: string
 }
 export type ServicoType = {
   id: number
@@ -28,6 +29,7 @@ export type EventoModelo = {
   data_inicio?: string
   data_fim?: string
   hora?: string
+  grupo?: string
 }
 type ContextoType = {
   evento: EventoModelo[]
@@ -43,6 +45,7 @@ export default function Contexto(props: Props) {
         servicos={props.servicos}
         profissionais={props.profissionais}
         configuracao={props.configuracao}
+        identificarCliente={props.identificarCliente}
       />
     </ContextoEvento.Provider>
   )

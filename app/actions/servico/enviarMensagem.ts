@@ -20,6 +20,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
     profissional: JSON.parse(
       profissionalConvertido ? profissionalConvertido : '',
     ),
+    grupo: formDataRaw.get('grupo')?.toString(),
   }
   const apiClient = new ApiServer()
   console.log('dados')
@@ -38,6 +39,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
     profissional: formData.profissional ? formData.profissional.id : null,
     nome: formData.nome,
     numero: formData.numero,
+    grupo: formData.grupo,
   }
   console.log(bodyRequest)
   const resposta = await apiClient.post('evento/', bodyRequest)

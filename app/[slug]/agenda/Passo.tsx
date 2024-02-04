@@ -24,6 +24,7 @@ type Props = {
   servicos: []
   profissionais: []
   configuracao: config[]
+  identificarCliente: string
 }
 
 export default function PassoPassoAgendamento(props: Props) {
@@ -78,6 +79,7 @@ export default function PassoPassoAgendamento(props: Props) {
     formDataObject.append('data_inicio', inicio ? inicio : '')
     formDataObject.append('hora', hora ? hora : '')
     formDataObject.append('profissional', JSON.stringify(profissional))
+    formDataObject.append('grupo', props.identificarCliente)
     // console.log(objeto)
     const enviar = await enviarMensagem(formDataObject)
     console.log('aqui')
