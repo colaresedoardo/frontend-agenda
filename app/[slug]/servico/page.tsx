@@ -6,8 +6,9 @@ import TabelaComponent from './Tabela'
 
 import FormularioServico from './Formulario'
 
-export default async function Page() {
-  const data = await listarServico()
+export default async function Page({ params }: { params: { slug: string } }) {
+  const data = await listarServico(params.slug)
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4}>
