@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const authRoutes = ['/servico/*']
+const authRoutes = ['servico/*']
 
 function matchesWildcard(path: string, pattern: string): boolean {
   if (pattern.endsWith('/*')) {
@@ -15,7 +15,10 @@ export async function middleware(request: NextRequest) {
     const auth = request.cookies.get('Authorization')?.value
     const apiUrl = process.env.API_URL + 'token/verify/'
 
-    const path = request.nextUrl.pathname
+    const pathBruta = request.nextUrl.pathname
+    const valor = pathBruta.split('/')
+    const path = valor[valor.length - 1]
+
     if (authRoutes.some((pattern) => matchesWildcard(path, pattern))) {
       if (auth != undefined) {
         const resposta = await fetch(apiUrl, {
