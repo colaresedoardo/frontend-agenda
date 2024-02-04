@@ -122,28 +122,25 @@ export default function ListarData() {
           }}
         >
           {sequenciaDias.map((dia) => (
-            <>
-              {' '}
-              <ListItemButton
-                key={dia}
-                onClick={() => {
-                  salvarDataNoContexto(dia)
-                }}
-                selected={dataPreenchida == dia}
-              >
+            <ListItemButton
+              key={dia}
+              onClick={() => {
+                salvarDataNoContexto(dia)
+              }}
+              selected={dataPreenchida == dia}
+            >
+              <Box>
+                <Typography>
+                  {converteDiaDoMes(dia)}/{converterMes(dia)}
+                </Typography>
+
                 <Box>
                   <Typography>
-                    {converteDiaDoMes(dia)}/{converterMes(dia)}
+                    {nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}
                   </Typography>
-
-                  <Box>
-                    <Typography>
-                      {nomesDosDiasDaSemana[convertDiaDaSemana(dia)]}
-                    </Typography>
-                  </Box>
                 </Box>
-              </ListItemButton>
-            </>
+              </Box>
+            </ListItemButton>
           ))}
         </ListItem>
       </List>

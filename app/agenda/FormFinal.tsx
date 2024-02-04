@@ -18,20 +18,18 @@ export default function FormFinal() {
   console.log('dentro form')
   console.log(formulario)
   return (
-    <Box display={'flex'} flexDirection={'column'} gap={1}>
+    <Box display={'flex'} flexDirection={'column'} gap={1} flexWrap={'wrap'}>
       <Typography>Digite seus dados para a equipe entrar em contato</Typography>
       <TextField
         required
         name="nome"
         label="Nome"
-        sx={{ width: '50vh' }}
         type="text"
         onChange={handleChange}
       />
       <TextField
         required
         label="numero"
-        sx={{ width: '50vh' }}
         name="numero"
         InputProps={{
           startAdornment: <InputAdornment position="start">+55</InputAdornment>,

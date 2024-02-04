@@ -90,6 +90,14 @@ export default function PassoPassoAgendamento(props: Props) {
     }
   }
 
+  const habilitarBotaoProximoServico = evento?.evento.map(
+    (event) =>
+      (event.servico.id == 0 && activeStep == 0) ||
+      (event.data_inicio == undefined && activeStep == 1) ||
+      (event.profissional == undefined && activeStep == 2) ||
+      (event.hora == undefined && activeStep == 3),
+  )[0]
+
   return (
     <Box
       display={'flex'}
@@ -112,16 +120,7 @@ export default function PassoPassoAgendamento(props: Props) {
           </Step>
         ))}
       </Stepper>
-      <Grid
-        container
-        spacing={2}
-        // sx={{
-        //   display: 'flex',
-        //   gap: 1,
-
-        //   justifyContent: 'space-around',
-        // }}
-      >
+      <Grid container spacing={2}>
         <Grid item md={4} xs={12} sm={12} justifyContent={'center'}>
           <ResumoServico />
         </Grid>
@@ -167,6 +166,7 @@ export default function PassoPassoAgendamento(props: Props) {
                   variant="outlined"
                   endIcon={<ArrowRightIcon />}
                   onClick={handleNext}
+                  disabled={habilitarBotaoProximoServico}
                 >
                   {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                 </Button>
