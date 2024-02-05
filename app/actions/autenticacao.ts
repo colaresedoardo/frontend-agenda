@@ -18,6 +18,9 @@ export default async function authUser(formData: FormData) {
   })
   const token = await response.json()
   cookies().set('Authorization', token['access'])
-  redirect('/')
+  cookies().set('grupo', token['grupo'])
+  cookies().set('username', token['username'])
+  cookies().set('nome_completo', token['nome_completo'])
+  redirect(`${token['grupo']}/`)
   //Verificar como redirecionar para a página que não tinha acesso antes do login
 }

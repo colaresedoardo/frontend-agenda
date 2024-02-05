@@ -1,5 +1,5 @@
 'use client'
-import * as React from 'react'
+
 import { styled, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -20,7 +20,13 @@ import ListItemText from '@mui/material/ListItemText'
 
 import MailIcon from '@mui/icons-material/Mail'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { getCookie } from 'cookies-next'
+import { useEffect, useState } from 'react'
+import { Button } from '@mui/material'
+import LoginIcon from '@mui/icons-material/Login'
+import LogoutIcon from '@mui/icons-material/Logout'
+import logout from '@/app/actions/logout'
 
 const drawerWidth = 240
 
@@ -79,8 +85,9 @@ export default function PersistentDrawerLeft({
   children: React.ReactNode
 }) {
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-
+  const [open, setOpen] = useState(false)
+  const [nomeCompleto, setNomeCompleto] = useState('')
+  const router = useRouter()
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -88,28 +95,79 @@ export default function PersistentDrawerLeft({
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
+  const login = () => {
+    router.push('/login')
+  }
+  useEffect(() => {
+    if (nomeCompleto == '') {
+      const nome = getCookie('nome_completo')
+      setNomeCompleto(nome!)
+    }
+  }, [nomeCompleto])
+  const logoutButton = async () => {
+    const resultado = await logout()
+    if (resultado) {
+      setNomeCompleto('')
+      router.push('/login')
+    }
+  }
   const valor = useParams()
-  console.log('menu')
-  console.log(valor.slug)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Agendamento
-          </Typography>
-        </Toolbar>
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Agendamento
+            </Typography>
+          </Toolbar>
+          <Box>
+            {nomeCompleto && (
+              <Typography variant="h6" noWrap component="div">
+                {nomeCompleto}
+              </Typography>
+            )}
+          </Box>
+          <Box>
+            {nomeCompleto ? (
+              <Button
+                sx={{ marginRight: '3vh' }}
+                endIcon={<LogoutIcon></LogoutIcon>}
+                color="info"
+                onClick={logoutButton}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                sx={{ marginRight: '3vh' }}
+                color="info"
+                endIcon={<LoginIcon></LoginIcon>}
+                onClick={login}
+              >
+                Login
+              </Button>
+            )}
+          </Box>
+        </Box>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -134,23 +192,26 @@ export default function PersistentDrawerLeft({
         </DrawerHeader>
         <Divider />
         <List>
-          <Link
-            href={'/' + valor.slug + '/servico'}
-            style={{
-              textDecoration: 'none',
-              color: theme.palette.primary.dark,
-            }}
-          >
-            <ListItem disablePadding onClick={handleDrawerClose}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <MailIcon />
-                </ListItemIcon>
+          {valor.slug && (
+            <Link
+              href={'/' + valor.slug + '/servico'}
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.primary.dark,
+              }}
+            >
+              <ListItem disablePadding onClick={handleDrawerClose}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <MailIcon />
+                  </ListItemIcon>
 
-                <ListItemText primary="Serviço"></ListItemText>
-              </ListItemButton>
-            </ListItem>
-          </Link>
+                  <ListItemText primary="Serviço"></ListItemText>
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          )}
+
           <Link
             href={'/' + valor.slug + '/agenda'}
             style={{
