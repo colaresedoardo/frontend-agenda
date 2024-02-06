@@ -1,6 +1,17 @@
 'use client'
-import { Box, Button, Grid, Paper, TextField, styled } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Button,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+  styled,
+} from '@mui/material'
 import authUser from '../actions/autenticacao'
+import { useCallback, useState } from 'react'
+import { redirect, useRouter } from 'next/navigation'
 
 export default function Page() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -10,6 +21,26 @@ export default function Page() {
     textAlign: 'center',
     color: theme.palette.text.primary,
   }))
+  const [error, setError] = useState(false)
+  const [mensagem, setMensagem] = useState('')
+  const loginButton = useCallback(async (formData: FormData) => {
+    const resultado = await authUser(formData)
+    if (resultado.sucesso) {
+      redirect(`/${resultado.linkPagina}`)
+    } else {
+      setError(true)
+      setMensagem(
+        `Erro ao realizar o login.
+        Verifique se suas credenciais estão corretas.
+        Qualquer dúvida entre em contato com o admininistrador
+        `,
+      )
+    }
+    setTimeout(() => {
+      setError(false)
+    }, 6000)
+  }, [])
+
   return (
     <Grid container>
       <Grid item xs={12} md={12} lg={12}>
@@ -22,7 +53,8 @@ export default function Page() {
           alignItems="center"
           gap={1}
           sx={{ minHeight: '50vh' }}
-          action={authUser}
+          action={loginButton}
+          // onSubmit={loginButton}
         >
           <TextField
             required
@@ -40,6 +72,11 @@ export default function Page() {
           <Button type="submit" variant="text">
             Enviar
           </Button>
+          {error && (
+            <Alert severity="error">
+              <Typography> {mensagem}</Typography>
+            </Alert>
+          )}
         </Box>
       </Grid>
     </Grid>

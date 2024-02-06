@@ -9,6 +9,17 @@ const roboto = Roboto({
   subsets: ['latin'],
 })
 
+const pallete = {
+  primary: {
+    main: '#EF5350',
+  },
+  secondary: {
+    main: '#EF9A9A',
+  },
+  info: {
+    main: '#ffff',
+  },
+}
 const themeOptions: ThemeOptions = {
   typography: {
     fontSize: 12,
@@ -19,13 +30,13 @@ const themeOptions: ThemeOptions = {
       default: '#ffff',
     },
     primary: {
-      main: '#EF5350',
+      main: pallete.primary.main,
     },
     secondary: {
-      main: '#EF9A9A',
+      main: pallete.secondary.main,
     },
     info: {
-      main: '#ffff',
+      main: pallete.info.main,
     },
   },
   components: {

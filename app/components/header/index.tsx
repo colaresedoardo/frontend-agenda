@@ -86,7 +86,8 @@ export default function PersistentDrawerLeft({
 }) {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
-  const [nomeCompleto, setNomeCompleto] = useState('')
+  // const [nomeCompleto, setNomeCompleto] = useState('')
+  const nomeCompleto = getCookie('nome_completo')
   const router = useRouter()
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -99,16 +100,11 @@ export default function PersistentDrawerLeft({
   const login = () => {
     router.push('/login')
   }
-  useEffect(() => {
-    if (nomeCompleto == '') {
-      const nome = getCookie('nome_completo')
-      setNomeCompleto(nome!)
-    }
-  }, [nomeCompleto])
+
   const logoutButton = async () => {
     const resultado = await logout()
     if (resultado) {
-      setNomeCompleto('')
+      // setNomeCompleto('')
       router.push('/login')
     }
   }
