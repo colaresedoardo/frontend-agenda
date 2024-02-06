@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import authUser from '../actions/autenticacao'
 import { useCallback, useState } from 'react'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default function Page() {
   const Item = styled(Paper)(({ theme }) => ({
