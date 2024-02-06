@@ -128,7 +128,9 @@ export default function PassoPassoAgendamento(props: Props) {
         </Grid>
         <Grid item md={8} xs={12} sm={12}>
           {activeStep == 0 && <MostrarServicos servicos={props.servicos} />}
-          {activeStep == 1 && <ListarData></ListarData>}
+          {activeStep == 1 && (
+            <ListarData configuracao={props.configuracao}></ListarData>
+          )}
           {activeStep == 2 && (
             <SelecionarProfissional
               profissionais={props.profissionais}

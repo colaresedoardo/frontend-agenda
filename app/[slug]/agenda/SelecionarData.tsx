@@ -11,7 +11,12 @@ import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
-export default function ListarData() {
+import { config } from './SelecionarHorario'
+
+type Props = {
+  configuracao: config[]
+}
+export default function ListarData(props: Props) {
   const nomesDosDiasDaSemana = [
     'Domingo',
     'Segunda',
@@ -24,6 +29,12 @@ export default function ListarData() {
 
   const [dataAtual, setDataAtual] = useState(new Date())
 
+  const configuracao = props.configuracao[0]
+  const trabalhaSabado = configuracao.trabalho_sabado
+  const dataFinal = new Date(`${configuracao.data_final}T00:00`)
+  const dataInicial = new Date(`${configuracao.data_inicial}T00:00`)
+  const [limiteDataFinal, setLimiteDataFinal] = useState(false)
+  const [limiteDataInicial, setLimiteDataInicial] = useState(false)
   const [sequenciaDias, setSequenciaDias] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
   const converteDiaDoMes = (data: string) => {
@@ -56,26 +67,43 @@ export default function ListarData() {
     return dataLimpa
   }
   useEffect(() => {
+    setLimiteDataFinal(false)
+    setLimiteDataInicial(false)
     const proximosDias = []
-    console.log(dataAtual)
+
     for (let i = 0; i < 8; i++) {
       const copiaDataAtual = new Date(dataAtual)
       copiaDataAtual.setDate(dataAtual.getDate() + i)
+      if (copiaDataAtual < new Date()) {
+        setLimiteDataInicial(true)
+      }
+      if (copiaDataAtual > dataFinal) {
+        setLimiteDataFinal(true)
+      }
 
-      // Adicionar apenas se não for sábado (6) ou domingo (0)
-      if (copiaDataAtual.getDay() !== 6 && copiaDataAtual.getDay() !== 0) {
-        proximosDias.push(copiaDataAtual.toISOString().split('T')[0])
+      if (copiaDataAtual <= dataFinal && copiaDataAtual >= dataInicial) {
+        // Adicionar apenas se não for sábado (6) ou domingo (0)
+        if (trabalhaSabado && copiaDataAtual.getDay() !== 0) {
+          proximosDias.push(copiaDataAtual.toISOString().split('T')[0])
+        } else if (
+          copiaDataAtual.getDay() !== 6 &&
+          copiaDataAtual.getDay() !== 0
+        ) {
+          proximosDias.push(copiaDataAtual.toISOString().split('T')[0])
+        }
       }
     }
-    console.log(proximosDias)
+
     if (sequenciaDias.length == 0) {
       setSequenciaDias(proximosDias)
     }
-  }, [dataAtual])
+  }, [dataAtual, limiteDataFinal, limiteDataInicial])
   function adicionarDias(data: Date, quatidade: number) {
     const dia = data.getDate()
     const mes = data.getMonth()
     const ano = data.getFullYear()
+    console.log('dentro de adicionar')
+    console.log(configuracao)
     return new Date(ano, mes, dia + quatidade)
   }
   const atualizarSequenciaParaFrente = () => {
@@ -107,10 +135,12 @@ export default function ListarData() {
     }
   }
   const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]
-  console.log(dataPreenchida)
   return (
     <Box display={'flex'}>
-      <Button onClick={atualizarSequenciaParaAtras}>
+      <Button
+        disabled={limiteDataInicial}
+        onClick={atualizarSequenciaParaAtras}
+      >
         <ArrowLeftIcon></ArrowLeftIcon>
       </Button>
       <List>
@@ -144,7 +174,7 @@ export default function ListarData() {
           ))}
         </ListItem>
       </List>
-      <Button onClick={atualizarSequenciaParaFrente}>
+      <Button disabled={limiteDataFinal} onClick={atualizarSequenciaParaFrente}>
         <ArrowRightIcon></ArrowRightIcon>
       </Button>
     </Box>
