@@ -7,6 +7,8 @@ import { fetcher } from '../../fetch/ApiClient'
 import {
   converterHoraMinutoParaString,
   extrairNumeroDaHora,
+  formatarHora,
+  separarHoraMinuto,
   trazerDataFormatoAmericano,
 } from '../../utils'
 
@@ -30,14 +32,18 @@ type EventoType = {
 export default function SelecionarHorario(props: Props) {
   const configuracao = props.configuracao[0]
   const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
+  const horarioInicial = separarHoraMinuto(configuracao.horario_inicial!)
   const horaFinal = extrairNumeroDaHora(configuracao.horario_final!)
   const horarioInicialAlmoco = extrairNumeroDaHora(
     configuracao.horario_inicial_almoco!,
   )
+
   const horarioFinalAlmoco = extrairNumeroDaHora(
     configuracao.horario_final_almoco!,
   )
-  const [intervalo] = useState(60)
+  const intervalo = configuracao.intervalo_entre_horario
+    ? configuracao.intervalo_entre_horario
+    : 60
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
   const [horarioEstaIndisponivel, setHorarioEstaIndisponive] = useState(false)
@@ -102,14 +108,19 @@ export default function SelecionarHorario(props: Props) {
       }
     }
     // Verifica se as horas estão preenchidas no evento e mostra as horas restantes
-
+    // horas.pop()
+    // horas.push(formatarHora(configuracao.horario_final!))
+    // horas.splice(0, 1)
+    // horas.pop()
+    // horas.unshift(formatarHora(configuracao.horario_inicial!))
+    // horas.push(formatarHora(configuracao.horario_final!))
     if (listaDeHoras.length == 0 && horarioEstaIndisponivel == false) {
       setListaDeHoras(horas)
     } else {
       console.log('horario não disponível')
     }
   }, [listaDeHoras])
-
+  console.log(horarioInicial)
   return (
     <Box>
       <List>
@@ -120,7 +131,7 @@ export default function SelecionarHorario(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {resultado.length > 0 ? (
+          {horarioEstaIndisponivel == false ? (
             <>
               {resultado.map((hora) => (
                 <ListItemButton

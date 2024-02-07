@@ -50,3 +50,20 @@ export function converterHoraMinutoParaString(horas: number, minutos: number) {
   // Retornar a string formatada
   return horasFormatadas + ':' + minutosFormatados
 }
+
+export function separarHoraMinuto(valor: string) {
+  const regexHoraMinuto = /^(\d{2}):(\d{2}):(\d{2})$/
+  const match = valor.match(regexHoraMinuto)
+
+  if (match) {
+    const hora = parseInt(match[1], 10)
+    const minuto = parseInt(match[2], 10)
+
+    return { hora, minuto }
+  } else {
+    console.error(
+      'Formato inválido. Use o formato HH:mm:ss, por exemplo, 08:00:00',
+    )
+    return null
+  }
+}
