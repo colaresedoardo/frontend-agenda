@@ -22,7 +22,7 @@ import MailIcon from '@mui/icons-material/Mail'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { getCookie } from 'cookies-next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -86,8 +86,12 @@ export default function PersistentDrawerLeft({
 }) {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
-  // const [nomeCompleto, setNomeCompleto] = useState('')
-  const nomeCompleto = getCookie('nome_completo')
+  const [nomeCompleto, setNomeCompleto] = useState('')
+
+  useEffect(() => {
+    const nome = getCookie('nome_completo')
+    setNomeCompleto(nome!)
+  }, [getCookie('nome_completo')])
   const router = useRouter()
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -109,7 +113,8 @@ export default function PersistentDrawerLeft({
     }
   }
   const valor = useParams()
-
+  console.log('aqui')
+  console.log(nomeCompleto)
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
