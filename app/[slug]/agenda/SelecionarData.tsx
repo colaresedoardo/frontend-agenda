@@ -32,6 +32,8 @@ export default function ListarData(props: Props) {
 
   const configuracao = props.configuracao[0]
   const trabalhaSabado = configuracao.trabalho_sabado
+    ? configuracao.trabalho_sabado
+    : false
   const dataFinal = new Date(`${configuracao.data_final}T00:00`)
   const dataInicial = new Date(`${configuracao.data_inicial}T00:00`)
   const [limiteDataFinal, setLimiteDataFinal] = useState(false)

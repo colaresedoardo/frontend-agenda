@@ -16,10 +16,10 @@ export type config = {
   intervalo_entre_horario?: number
   data_inicial?: string
   data_final?: string
-  trabalho_sabado: boolean
-  trabalho_domingo: boolean
-  horario_inicial_almoco: string
-  horario_final_almoco: string
+  trabalho_sabado?: boolean
+  trabalho_domingo?: boolean
+  horario_inicial_almoco?: string
+  horario_final_almoco?: string
 }
 type Props = {
   configuracao: config[]
