@@ -30,8 +30,19 @@ type EventoType = {
 }
 export default function SelecionarHorario(props: Props) {
   const configuracao = props.configuracao[0]
+  const evento = useContext(ContextoEvento)
   const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
   const horarioInicial = separarHoraMinuto(configuracao.horario_inicial!)
+  const seperandoHorarioFinal = separarHoraMinuto(configuracao.horario_final!)
+  const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
+
+  const horarioFinal =
+    seperandoHorarioFinal != null
+      ? seperandoHorarioFinal
+      : {
+          hora: 17,
+          minuto: 0,
+        }
   const horaFinal = extrairNumeroDaHora(configuracao.horario_final!)
   const horarioInicialAlmoco = extrairNumeroDaHora(
     configuracao.horario_inicial_almoco!,
@@ -44,8 +55,24 @@ export default function SelecionarHorario(props: Props) {
     ? configuracao.intervalo_entre_horario
     : 60
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
-  const evento = useContext(ContextoEvento)
-  const [horarioEstaIndisponivel, setHorarioEstaIndisponive] = useState(false)
+  const diaAtual = trazerDataFormatoAmericano(new Date())
+  const pegandoHorarioAtual = separarHoraMinuto(
+    converterHoraMinutoParaString(
+      new Date().getHours(),
+      new Date().getMinutes(),
+    ) + ':00',
+  )
+  const horarioAtual = pegandoHorarioAtual
+    ? pegandoHorarioAtual
+    : { hora: 17, minuto: 0 }
+
+  const diaSelecionadoFormatado = trazerDataFormatoAmericano(
+    new Date(`${diaSelecionado}T00:00`),
+  )
+  const horarioEstaIndisponivel =
+    horarioAtual?.hora >= horarioFinal?.hora &&
+    horarioAtual?.minuto >= horarioFinal?.minuto
+
   const salvarHoraNoContexto = (hora: string) => {
     console.log(hora)
     const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
@@ -64,7 +91,6 @@ export default function SelecionarHorario(props: Props) {
       },
     ])
   }
-  const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
   const profissional = evento?.evento.map(
     (evento) => evento.profissional?.id,
   )[0]
@@ -78,22 +104,35 @@ export default function SelecionarHorario(props: Props) {
       !data?.some((obj: EventoType) => obj.horario.substring(0, 5) == hora),
   )
   const horaSelecionada = evento?.evento.map((evento) => evento.hora)[0]
+
   useEffect(() => {
     const horas = []
     const dataHoraLocal = new Date()
     const dataSelecionada = new Date(`${diaSelecionado}T00:00`)
     const dataSelecioandaFormatada = trazerDataFormatoAmericano(dataSelecionada)
     const horaLocal = dataHoraLocal.getHours()
+    const minutoLocal = dataHoraLocal.getMinutes()
+    console.log('minuto')
+    console.log(minutoLocal)
     const dataFormatada = trazerDataFormatoAmericano(dataHoraLocal)
-    console.log('hora')
-    console.log(horaLocal)
-    console.log('data selecioanda')
-    console.log(dataSelecioandaFormatada)
+    let minutoAlterado = 0
+
+    if (horarioInicial?.minuto == 30) {
+      minutoAlterado = 30
+    } else {
+      minutoAlterado = 0
+    }
 
     for (let hora = horaInical; hora <= horaFinal; hora++) {
-      for (let minuto = 0; minuto < 60; minuto += intervalo) {
+      for (let minuto = minutoAlterado; minuto < 60; minuto += intervalo) {
         //Condição para verificar se já passou o horário do dia
-        if (hora >= horaLocal && dataSelecioandaFormatada == dataFormatada) {
+        console.log(hora + ':' + minuto)
+        if (
+          hora >= horaLocal &&
+          minuto >= minutoLocal &&
+          dataSelecioandaFormatada == dataFormatada
+        ) {
+          console.log('entre na primeira')
           horas.push(converterHoraMinutoParaString(hora, minuto))
         } else if (dataSelecioandaFormatada != dataFormatada) {
           if (hora == horarioInicialAlmoco || hora == horarioFinalAlmoco) {
@@ -101,25 +140,20 @@ export default function SelecionarHorario(props: Props) {
             console.log(hora)
           }
           horas.push(converterHoraMinutoParaString(hora, minuto))
-        } else {
-          setHorarioEstaIndisponive(true)
+        }
+        if (intervalo == 30) {
+          minutoAlterado = 0
         }
       }
     }
-    // Verifica se as horas estão preenchidas no evento e mostra as horas restantes
-    // horas.pop()
-    // horas.push(formatarHora(configuracao.horario_final!))
-    // horas.splice(0, 1)
-    // horas.pop()
-    // horas.unshift(formatarHora(configuracao.horario_inicial!))
-    // horas.push(formatarHora(configuracao.horario_final!))
-    if (listaDeHoras.length == 0 && horarioEstaIndisponivel == false) {
+
+    if (listaDeHoras.length == 0) {
       setListaDeHoras(horas)
-    } else {
-      console.log('horario não disponível')
     }
-  }, [listaDeHoras])
-  console.log(horarioInicial)
+  }, [])
+  console.log('intervalo')
+  console.log(intervalo)
+
   return (
     <Box>
       <List>
@@ -130,8 +164,14 @@ export default function SelecionarHorario(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {horarioEstaIndisponivel == false ? (
+          {horarioEstaIndisponivel == false ||
+          diaSelecionadoFormatado == diaAtual ? (
             <>
+              {resultado.length == 0 && (
+                <Typography>
+                  Não há mais horário para hoje. Selecione outra data.
+                </Typography>
+              )}
               {resultado.map((hora) => (
                 <ListItemButton
                   onClick={() => {
@@ -146,9 +186,27 @@ export default function SelecionarHorario(props: Props) {
             </>
           ) : (
             <>
-              <Typography>
-                Não há mais horário para hoje. Selecione outra data
-              </Typography>
+              {resultado.length > 0 ? (
+                <>
+                  {resultado.map((hora) => (
+                    <ListItemButton
+                      onClick={() => {
+                        salvarHoraNoContexto(hora)
+                      }}
+                      key={hora}
+                      selected={
+                        horaSelecionada ? horaSelecionada == hora : false
+                      }
+                    >
+                      <Typography>{hora}</Typography>
+                    </ListItemButton>
+                  ))}
+                </>
+              ) : (
+                <Typography>
+                  Não há mais horário para hoje. Selecione outra data
+                </Typography>
+              )}
             </>
           )}
         </ListItem>
