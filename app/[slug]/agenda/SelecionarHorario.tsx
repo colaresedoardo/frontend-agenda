@@ -7,7 +7,6 @@ import { fetcher } from '../../fetch/ApiClient'
 import {
   converterHoraMinutoParaString,
   extrairNumeroDaHora,
-  formatarHora,
   separarHoraMinuto,
   trazerDataFormatoAmericano,
 } from '../../utils'
