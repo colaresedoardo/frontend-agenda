@@ -12,6 +12,7 @@ import { ContextoEvento } from './Contexto'
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import { config } from './SelecionarHorario'
+import { trazerDataFormatoAmericanoTipoDate } from '@/app/utils'
 
 type Props = {
   configuracao: config[]
@@ -72,9 +73,11 @@ export default function ListarData(props: Props) {
     const proximosDias = []
 
     for (let i = 0; i < 8; i++) {
-      const copiaDataAtual = new Date(dataAtual)
+      const copiaDataAtual = trazerDataFormatoAmericanoTipoDate(
+        new Date(dataAtual),
+      )
       copiaDataAtual.setDate(dataAtual.getDate() + i)
-      if (copiaDataAtual < new Date()) {
+      if (copiaDataAtual <= dataInicial) {
         setLimiteDataInicial(true)
       }
       if (copiaDataAtual > dataFinal) {
@@ -135,6 +138,10 @@ export default function ListarData(props: Props) {
     }
   }
   const dataPreenchida = evento?.evento.map((evento) => evento.data_inicio)[0]
+  console.log('hoje')
+  console.log()
+  console.log('horario inicial')
+  console.log(dataInicial)
   return (
     <Box display={'flex'}>
       <Button

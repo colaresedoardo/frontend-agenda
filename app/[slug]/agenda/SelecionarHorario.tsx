@@ -4,16 +4,22 @@ import { ContextoEvento } from './Contexto'
 
 import useSWR from 'swr'
 import { fetcher } from '../../fetch/ApiClient'
-import { trazerDataFormatoAmericano } from '../../utils'
+import {
+  converterHoraMinutoParaString,
+  extrairNumeroDaHora,
+  trazerDataFormatoAmericano,
+} from '../../utils'
 
 export type config = {
-  horaInicial?: string
-  horaFinal?: string
+  horario_inicial?: string
+  horario_final?: string
   intervalo_entre_horario?: number
   data_inicial?: string
   data_final?: string
   trabalho_sabado: boolean
   trabalho_domingo: boolean
+  horario_inicial_almoco: string
+  horario_final_almoco: string
 }
 type Props = {
   configuracao: config[]
@@ -22,13 +28,19 @@ type EventoType = {
   horario: string
 }
 export default function SelecionarHorario(props: Props) {
-  // const configuracao = props.configuracao[0]
-  const [horaInical] = useState(8)
-  const [horaFinal] = useState(20)
+  const configuracao = props.configuracao[0]
+  const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
+  const horaFinal = extrairNumeroDaHora(configuracao.horario_final!)
+  const horarioInicialAlmoco = extrairNumeroDaHora(
+    configuracao.horario_inicial_almoco!,
+  )
+  const horarioFinalAlmoco = extrairNumeroDaHora(
+    configuracao.horario_final_almoco!,
+  )
   const [intervalo] = useState(60)
   const [listaDeHoras, setListaDeHoras] = useState<string[]>([])
   const evento = useContext(ContextoEvento)
-
+  const [horarioEstaIndisponivel, setHorarioEstaIndisponive] = useState(false)
   const salvarHoraNoContexto = (hora: string) => {
     console.log(hora)
     const servicoAnterior = evento?.evento.map((evento) => evento.servico)[0]
@@ -62,54 +74,42 @@ export default function SelecionarHorario(props: Props) {
   )
   const horaSelecionada = evento?.evento.map((evento) => evento.hora)[0]
   useEffect(() => {
-    // setListaDeHoras([])
     const horas = []
-    const conjuntos = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
-
     const dataHoraLocal = new Date()
     const dataSelecionada = new Date(`${diaSelecionado}T00:00`)
     const dataSelecioandaFormatada = trazerDataFormatoAmericano(dataSelecionada)
     const horaLocal = dataHoraLocal.getHours()
     const dataFormatada = trazerDataFormatoAmericano(dataHoraLocal)
+    console.log('hora')
+    console.log(horaLocal)
+    console.log('data selecioanda')
+    console.log(dataSelecioandaFormatada)
+
     for (let hora = horaInical; hora <= horaFinal; hora++) {
       for (let minuto = 0; minuto < 60; minuto += intervalo) {
         //Condição para verificar se já passou o horário do dia
         if (hora >= horaLocal && dataSelecioandaFormatada == dataFormatada) {
-          if (conjuntos.has(hora) && minuto == 0) {
-            horas.push(`0${hora}:${minuto}0`)
-          } else if (conjuntos.has(hora)) {
-            horas.push(`0${hora}:${minuto}`)
-          } else if (minuto == 0) {
-            horas.push(`${hora}:${minuto}0`)
-          } else {
-            horas.push(`${hora}:${minuto}`)
-          }
+          horas.push(converterHoraMinutoParaString(hora, minuto))
         } else if (dataSelecioandaFormatada != dataFormatada) {
-          if (conjuntos.has(hora) && minuto == 0) {
-            horas.push(`0${hora}:${minuto}0`)
-          } else if (conjuntos.has(hora)) {
-            horas.push(`0${hora}:${minuto}`)
-          } else if (minuto == 0) {
-            horas.push(`${hora}:${minuto}0`)
-          } else {
-            horas.push(`${hora}:${minuto}`)
+          if (hora == horarioInicialAlmoco || hora == horarioFinalAlmoco) {
+            console.log('horario')
+            console.log(hora)
           }
+          horas.push(converterHoraMinutoParaString(hora, minuto))
+        } else {
+          setHorarioEstaIndisponive(true)
         }
       }
     }
     // Verifica se as horas estão preenchidas no evento e mostra as horas restantes
 
-    console.log('resultado aqui')
-    console.log(resultado)
-    console.log('data aqui')
-    console.log(data)
-    console.log('dia selcionado ' + diaSelecionado)
-    if (listaDeHoras.length == 0) {
+    if (listaDeHoras.length == 0 && horarioEstaIndisponivel == false) {
       setListaDeHoras(horas)
+    } else {
+      console.log('horario não disponível')
     }
-  })
-  console.log('config')
-  console.log(props.configuracao)
+  }, [listaDeHoras])
+
   return (
     <Box>
       <List>
@@ -136,7 +136,9 @@ export default function SelecionarHorario(props: Props) {
             </>
           ) : (
             <>
-              <Typography>Loading</Typography>
+              <Typography>
+                Não há mais horário para hoje. Selecione outra data
+              </Typography>
             </>
           )}
         </ListItem>
