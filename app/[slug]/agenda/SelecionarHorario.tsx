@@ -127,11 +127,7 @@ export default function SelecionarHorario(props: Props) {
       for (let minuto = minutoAlterado; minuto < 60; minuto += intervalo) {
         //Condição para verificar se já passou o horário do dia
         console.log(hora + ':' + minuto)
-        if (
-          hora >= horaLocal &&
-          minuto >= minutoLocal &&
-          dataSelecioandaFormatada == dataFormatada
-        ) {
+        if (hora >= horaLocal && dataSelecioandaFormatada == dataFormatada) {
           console.log('entre na primeira')
           horas.push(converterHoraMinutoParaString(hora, minuto))
         } else if (dataSelecioandaFormatada != dataFormatada) {
@@ -144,6 +140,9 @@ export default function SelecionarHorario(props: Props) {
         if (intervalo == 30) {
           minutoAlterado = 0
         }
+      }
+      if (intervalo == 30) {
+        horas.pop()
       }
     }
 
