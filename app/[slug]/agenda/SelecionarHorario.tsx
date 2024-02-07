@@ -141,11 +141,10 @@ export default function SelecionarHorario(props: Props) {
           minutoAlterado = 0
         }
       }
-      if (intervalo == 30) {
-        horas.pop()
-      }
     }
-
+    if (intervalo == 30) {
+      horas.pop()
+    }
     if (listaDeHoras.length == 0) {
       setListaDeHoras(horas)
     }
