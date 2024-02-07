@@ -1,5 +1,5 @@
 'use client'
 
 export default function Home() {
-  return <main>Inicio</main>
+  return <main>Inicio da página</main>
 }
