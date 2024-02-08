@@ -43,29 +43,40 @@ export default function Page() {
 
   return (
     <Grid container>
+      <Grid
+        item
+        xs={12}
+        md={12}
+        lg={12}
+        display={'flex'}
+        justifyContent={'center'}
+        alignContent={'center'}
+      >
+        {' '}
+        <Typography>Login</Typography>
+      </Grid>
       <Grid item xs={12} md={12} lg={12}>
-        <Item>Login</Item>
         <Box
           component="form"
           display={'flex'}
           flexDirection={'column'}
           justifyContent="center"
-          alignItems="center"
           gap={1}
-          sx={{ minHeight: '50vh' }}
+          alignItems="center"
+          // sx={{ minHeight: '50vh' }}
           action={loginButton}
           // onSubmit={loginButton}
         >
           <TextField
             required
             label="Login"
-            sx={{ width: '50vh' }}
+            // sx={{ width: '50vh' }}
             name="user"
           />
           <TextField
             required
             label="Senha"
-            sx={{ width: '50vh' }}
+            // sx={{ width: '50vh' }}
             type="password"
             name="password"
           />
