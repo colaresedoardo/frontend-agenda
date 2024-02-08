@@ -61,7 +61,7 @@ export default function SelecionarProfissional(props: Props) {
                 ></Avatar>
               ) : (
                 <Avatar sx={{ width: 60, height: 60 }}>
-                  {profissional.nome[0]}
+                  {profissional.nome ? profissional.nome[0] : ''}
                 </Avatar>
               )}
 
