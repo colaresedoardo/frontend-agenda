@@ -1,26 +1,10 @@
 'use client'
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  styled,
-} from '@mui/material'
+import { Alert, Box, Button, Grid, TextField, Typography } from '@mui/material'
 import authUser from '../actions/autenticacao'
 import { useCallback, useState } from 'react'
 import { redirect } from 'next/navigation'
 
 export default function Page() {
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.primary,
-  }))
   const [error, setError] = useState(false)
   const [mensagem, setMensagem] = useState('')
   const loginButton = useCallback(async (formData: FormData) => {
