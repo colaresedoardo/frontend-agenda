@@ -54,7 +54,17 @@ export default function SelecionarProfissional(props: Props) {
                   : false
               }
             >
-              <Avatar sx={{ width: 60, height: 60 }}>N</Avatar>
+              {profissional.url_image != '' ? (
+                <Avatar
+                  src={profissional.url_image}
+                  sx={{ width: 60, height: 60 }}
+                ></Avatar>
+              ) : (
+                <Avatar sx={{ width: 60, height: 60 }}>
+                  {profissional.nome[0]}
+                </Avatar>
+              )}
+
               <Typography>{profissional.nome}</Typography>
             </ListItemButton>
           ))}

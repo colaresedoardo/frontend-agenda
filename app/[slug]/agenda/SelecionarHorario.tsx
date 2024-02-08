@@ -7,6 +7,7 @@ import { fetcher } from '../../fetch/ApiClient'
 import {
   converterHoraMinutoParaString,
   extrairNumeroDaHora,
+  formatarHora,
   separarHoraMinuto,
   trazerDataFormatoAmericano,
 } from '../../utils'
@@ -145,8 +146,17 @@ export default function SelecionarHorario(props: Props) {
     if (intervalo == 30) {
       horas.pop()
     }
+    const valoresFiltrados = horas.filter(
+      (hora) =>
+        hora < formatarHora(configuracao.horario_inicial_almoco!) ||
+        hora > formatarHora(configuracao.horario_final_almoco!),
+    )
+    console.log('almoço')
+    console.log(formatarHora(configuracao.horario_inicial_almoco!))
+    console.log('filtro')
+    console.log(valoresFiltrados)
     if (listaDeHoras.length == 0) {
-      setListaDeHoras(horas)
+      setListaDeHoras(valoresFiltrados)
     }
   }, [])
   console.log('intervalo')
