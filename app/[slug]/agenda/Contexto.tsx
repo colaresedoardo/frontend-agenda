@@ -35,13 +35,15 @@ export type EventoModelo = {
 type ContextoType = {
   evento: EventoModelo[]
   setEvento: Dispatch<SetStateAction<EventoModelo[]>>
+  servico: ServicoType
+  setServico: Dispatch<SetStateAction<ServicoType>>
 }
 export const ContextoEvento = createContext<ContextoType | null>(null)
 export default function Contexto(props: Props) {
   const [evento, setEvento] = useState<EventoModelo[]>([{ servico: { id: 0 } }])
-
+  const [servico, setServico] = useState<ServicoType>({ id: 0 })
   return (
-    <ContextoEvento.Provider value={{ evento, setEvento }}>
+    <ContextoEvento.Provider value={{ evento, setEvento, servico, setServico }}>
       <PassoPassoAgendamento
         servicos={props.servicos}
         profissionais={props.profissionais}

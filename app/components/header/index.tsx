@@ -134,17 +134,17 @@ export default function PersistentDrawerLeft({
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Agendamento
-            </Typography>
-          </Toolbar>
-          <Box>
-            {nomeCompleto && (
+            {nomeCompleto ? (
               <Typography variant="h6" noWrap component="div">
                 {nomeCompleto}
               </Typography>
+            ) : (
+              <Typography variant="h6" noWrap component="div">
+                Agendamento
+              </Typography>
             )}
-          </Box>
+          </Toolbar>
+
           <Box>
             {nomeCompleto ? (
               <Button

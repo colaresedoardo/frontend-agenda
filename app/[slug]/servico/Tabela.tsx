@@ -1,37 +1,68 @@
 'use client'
-import { Box } from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
+import { ServicoType } from '../agenda/Contexto'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { useContext } from 'react'
+import { ContextoServico } from './Contexto'
+
 type Props = {
-  dados: []
+  dados: ServicoType[]
 }
 export default function TabelaComponent(props: Props) {
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Id', width: 50 },
-    { field: 'nome', headerName: 'Nome', width: 150 },
-    { field: 'valor', headerName: 'Valor', width: 150 },
-    { field: 'descricao', headerName: 'Descricao', width: 300 },
-  ]
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+  const dados = props.dados
+  const servicoContexto = useContext(ContextoServico)
+  function alterarDados(dado: ServicoType) {
+    const nome = dado.nome
+    console.log('alterar')
+    console.log(nome)
+    console.log('lista')
+    console.log(servicoContexto)
+    servicoContexto?.setServico(dado)
+    // if (!evento?.servico) {
+    //   evento?.setServico(dado)
+    // }
+  }
 
-        // alignItems: 'center',
-      }}
-    >
-      <DataGrid
-        rows={props.dados}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        scrollbarSize={5}
-      />
-    </Box>
+  return (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Nome</TableCell>
+            <TableCell>Valor</TableCell>
+            <TableCell>Tempo serviço</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {dados.map((dado) => (
+            <TableRow key={dado.id}>
+              <TableCell>{dado.nome}</TableCell>
+              <TableCell>{dado.valor}</TableCell>
+              <TableCell>{dado.tempo_servico}</TableCell>
+              <TableCell
+                sx={{ '&:hover': { cursor: 'pointer' } }}
+                onClick={() => alterarDados(dado)}
+              >
+                <EditIcon color="secondary"></EditIcon>
+              </TableCell>
+              <TableCell sx={{ '&:hover': { cursor: 'pointer' } }}>
+                <DeleteForeverIcon color={'primary'}></DeleteForeverIcon>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
