@@ -128,7 +128,11 @@ export default function TabelaComponent(props: Props) {
           <Button onClick={handleClose} autoFocus>
             Não
           </Button>
-          <Button onClick={() => onExcluirServico(registroSelecionado?.id!)}>
+          <Button
+            onClick={() =>
+              onExcluirServico(registroSelecionado ? registroSelecionado.id : 0)
+            }
+          >
             Sim
           </Button>
         </DialogActions>
