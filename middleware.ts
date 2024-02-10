@@ -43,9 +43,7 @@ export async function middleware(request: NextRequest) {
       }
     }
   } catch (err) {
-    console.log('error no middleware')
-    // cookies().delete('Authorization')
-    console.log(process.env.NEXTAUTH_URL)
+    // throw new Error('Failed to Delete Invoice');
     return NextResponse.redirect(process.env.NEXTAUTH_URL + 'login')
   }
 }

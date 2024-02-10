@@ -38,7 +38,7 @@ export default function FormularioServico(props: Props) {
     console.log(data)
     const formData: FormData = new FormData()
     formData.append('grupo', props.slug)
-    formData.append('id', String(data.id))
+    formData.append('id', data.id > 0 ? String(data.id) : '')
     formData.append('nome', String(data.nome))
     formData.append('tempo_servico', String(data.tempo_servico))
     formData.append('valor', String(data.valor))
@@ -72,7 +72,7 @@ export default function FormularioServico(props: Props) {
       component="form"
       onSubmit={handleSubmit(onSubmitEnviar)}
     >
-      <Typography variant="h3">Cadastro de serviço</Typography>
+      <Typography variant="h4">Cadastro de serviço</Typography>
       <FormControl>
         <FormHelperText id="my-helper-text">Nome do Serviço</FormHelperText>
 

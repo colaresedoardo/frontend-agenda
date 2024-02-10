@@ -5,7 +5,7 @@ class ApiServer {
 
   private async handleResponse(response: Response) {
     if (!response.ok) {
-      throw new Error(`Falha ao consultar a API ${response.status}`)
+      throw Error(`Falha ao consultar a API ${response.status}`)
     }
 
     return response.json()
@@ -102,6 +102,20 @@ class ApiServer {
     }
 
     return this.handleResponse(response)
+  }
+  async delete(endpoint: string, id: number): Promise<void> {
+    const url = new URL(`${endpoint}${id}`, this.baseUrl)
+    const token = `Bearer  ${cookies().get('Authorization')?.value}`
+
+    const response = await fetch(url.toString(), {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    })
+    console.log(response.json())
+    this.handleResponse(response)
   }
 }
 export default ApiServer

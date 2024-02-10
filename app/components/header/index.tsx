@@ -113,8 +113,7 @@ export default function PersistentDrawerLeft({
     }
   }
   const valor = useParams()
-  console.log('aqui')
-  console.log(nomeCompleto)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -135,9 +134,17 @@ export default function PersistentDrawerLeft({
               <MenuIcon />
             </IconButton>
             {nomeCompleto ? (
-              <Typography variant="h6" noWrap component="div">
-                {nomeCompleto}
-              </Typography>
+              <Link
+                href={'/' + valor.slug}
+                style={{
+                  textDecoration: 'none',
+                  color: theme.palette.info.main,
+                }}
+              >
+                <Typography variant="h6" noWrap component="div">
+                  {nomeCompleto}
+                </Typography>
+              </Link>
             ) : (
               <Typography variant="h6" noWrap component="div">
                 Agendamento
