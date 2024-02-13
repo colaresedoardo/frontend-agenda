@@ -20,6 +20,7 @@ export type ProfissionalType = {
   id: number
   nome: string | undefined
   url_image?: string
+  telefone?: string
 }
 
 export type EventoModelo = {

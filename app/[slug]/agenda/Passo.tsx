@@ -20,6 +20,7 @@ import enviarMensagem from '../../actions/servico/enviarMensagem'
 import SendIcon from '@mui/icons-material/Send'
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import { converterData } from '@/app/utils'
 type Props = {
   servicos: []
   profissionais: []
@@ -37,7 +38,7 @@ export default function PassoPassoAgendamento(props: Props) {
   ]
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set<number>())
-  const [sucesso] = useState(false)
+  const [sucesso, setSucesso] = useState(false)
   const [fracasso, setFracasso] = useState(false)
   const [mensagem, setMensagem] = useState('')
   const isStepSkipped = (step: number) => {
@@ -82,14 +83,34 @@ export default function PassoPassoAgendamento(props: Props) {
     formDataObject.append('grupo', props.identificarCliente)
     // console.log(objeto)
     const enviar = await enviarMensagem(formDataObject)
+    let conteudo = `Olá, o serviço ${servico?.nome} 
+foi confirmado 📖
+*Resumo*:
+serviço: ${servico?.nome} ✏️
+valor: *${servico?.valor}* 💰
+tempo estimado: ${servico?.tempo_servico} minutos ⏱️
+dia: *${converterData(inicio!)}* 📅
+horário: *${hora}* ⏱️
+profissional: ${profissional?.nome} 👤`
+
     console.log('aqui')
     console.log(enviar)
-    if (!enviar?.mensagemEnviadaWhatsapp || !enviar?.sucesso) {
-      setFracasso(true)
-      setMensagem('Erro ao enviar mensagem ' + enviar?.errorWhat)
+    if (enviar['mensagem'] == 'Sucesso') {
+      setMensagem('Envidado com sucesso')
+      setSucesso(true)
     } else {
-      setMensagem(enviar.messagem)
+      setFracasso(true)
+      setMensagem('Erro ao enviar mensagem')
     }
+    setTimeout(() => {
+      setSucesso(false)
+      setFracasso(false)
+    }, 4000)
+
+    conteudo = encodeURIComponent(conteudo)
+    const url = `https://api.whatsapp.com/send?phone=${profissional?.telefone}&text=${conteudo}`
+    window.open(url)
+    // window.location.replace(url);
   }
 
   const habilitarBotaoProximoServico = evento?.evento.map(
@@ -178,7 +199,7 @@ export default function PassoPassoAgendamento(props: Props) {
             )}
           </Box>
           <Box>
-            {sucesso && <Alert severity="success">Teste</Alert>}
+            {sucesso && <Alert severity="success">{mensagem}</Alert>}
             {fracasso && <Alert severity="error">{mensagem}. </Alert>}
           </Box>
         </Grid>

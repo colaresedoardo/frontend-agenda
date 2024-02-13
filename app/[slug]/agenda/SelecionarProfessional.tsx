@@ -24,7 +24,11 @@ export default function SelecionarProfissional(props: Props) {
       {
         servico: servicoAnterior!,
         data_inicio: dataAnterior,
-        profissional: { id: profissinonal.id, nome: profissinonal.nome },
+        profissional: {
+          id: profissinonal.id,
+          nome: profissinonal.nome,
+          telefone: profissinonal.telefone,
+        },
         hora: horario,
       },
     ])
