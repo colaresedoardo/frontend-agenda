@@ -3,8 +3,6 @@
 import { EventoModelo } from '@/app/[slug]/agenda/Contexto'
 
 import ApiServer from '@/app/fetch/ApiServer'
-import ApiWhatsapp from '@/app/fetch/ApiWhatsapp'
-import { converterData } from '@/app/utils'
 
 type TipoBody = Record<string, string | number | undefined | null>
 export default async function enviarMensagem(formDataRaw: FormData) {
