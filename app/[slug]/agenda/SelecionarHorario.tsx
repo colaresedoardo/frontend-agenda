@@ -39,11 +39,7 @@ export default function SelecionarHorario(props: Props) {
   const evento = useContext(ContextoEvento)
   const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
   const trabalhaSabado = configuracao.trabalho_sabado
-  const horaInical = extrairNumeroDaHora(
-    trabalhaSabado && verificaSabado(diaSelecionado!)
-      ? configuracao.horario_inicial_sabado
-      : configuracao.horario_inicial!,
-  )
+  const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
   const horarioInicial = separarHoraMinuto(configuracao.horario_inicial!)
   const seperandoHorarioFinal = separarHoraMinuto(configuracao.horario_final!)
 
@@ -59,13 +55,6 @@ export default function SelecionarHorario(props: Props) {
       ? configuracao.horario_final_sabado
       : configuracao.horario_final!,
   )
-  const horarioInicialAlmoco = extrairNumeroDaHora(
-    configuracao.horario_inicial_almoco!,
-  )
-
-  const horarioFinalAlmoco = extrairNumeroDaHora(
-    configuracao.horario_final_almoco!,
-  )
   const intervalo = configuracao.intervalo_entre_horario
     ? configuracao.intervalo_entre_horario
     : 60
@@ -77,6 +66,7 @@ export default function SelecionarHorario(props: Props) {
       new Date().getMinutes(),
     ) + ':00',
   )
+
   const horarioAtual = pegandoHorarioAtual
     ? pegandoHorarioAtual
     : { hora: 17, minuto: 0 }
@@ -122,61 +112,36 @@ export default function SelecionarHorario(props: Props) {
 
   useEffect(() => {
     const horas = []
-    const dataHoraLocal = new Date()
-    const dataSelecionada = new Date(`${diaSelecionado}T00:00`)
-    const dataSelecioandaFormatada = trazerDataFormatoAmericano(dataSelecionada)
-    const horaLocal = dataHoraLocal.getHours()
-    const minutoLocal = dataHoraLocal.getMinutes()
-    console.log('minuto')
-    console.log(minutoLocal)
-    const dataFormatada = trazerDataFormatoAmericano(dataHoraLocal)
-    let minutoAlterado = 0
-
-    if (horarioInicial?.minuto == 30) {
-      minutoAlterado = 30
-    } else {
-      minutoAlterado = 0
-    }
 
     for (let hora = horaInical; hora <= horaFinal; hora++) {
-      for (let minuto = minutoAlterado; minuto < 60; minuto += intervalo) {
-        //Condição para verificar se já passou o horário do dia
+      for (let minuto = 0; minuto < 60; minuto += intervalo) {
         console.log(hora + ':' + minuto)
-        if (hora >= horaLocal && dataSelecioandaFormatada == dataFormatada) {
-          console.log('entre na primeira')
-          horas.push(converterHoraMinutoParaString(hora, minuto))
-        } else if (dataSelecioandaFormatada != dataFormatada) {
-          if (hora == horarioInicialAlmoco || hora == horarioFinalAlmoco) {
-            console.log('horario')
-            console.log(hora)
-          }
-          horas.push(converterHoraMinutoParaString(hora, minuto))
-        }
-        if (intervalo == 30) {
-          minutoAlterado = 0
-        }
+        horas.push(converterHoraMinutoParaString(hora, minuto))
       }
     }
-    if (intervalo == 30) {
-      horas.pop()
-    }
-    const valoresFiltrados = horas.filter(
+    const horarioFiltrado = horas.filter(
+      (hora) =>
+        hora >= formatarHora(configuracao.horario_inicial!) &&
+        hora <= formatarHora(configuracao.horario_final!),
+    )
+    let valoresFiltrados = horarioFiltrado.filter(
       (hora) =>
         hora < formatarHora(configuracao.horario_inicial_almoco!) ||
         hora > formatarHora(configuracao.horario_final_almoco!),
     )
-    console.log('almoço')
-    console.log(formatarHora(configuracao.horario_inicial_almoco!))
-    console.log('filtro')
-    console.log(valoresFiltrados)
+
+    if (trabalhaSabado && verificaSabado(diaSelecionado!)) {
+      valoresFiltrados = valoresFiltrados.filter(
+        (hora) =>
+          hora >= formatarHora(configuracao.horario_inicial_sabado) &&
+          hora <= formatarHora(configuracao.horario_final_sabado),
+      )
+    }
+
     if (listaDeHoras.length == 0) {
       setListaDeHoras(valoresFiltrados)
     }
   }, [])
-  console.log('configuração')
-  console.log('dia selecioando')
-  console.log(diaSelecionado)
-  console.log(verificaSabado(diaSelecionado!))
 
   return (
     <Box>
