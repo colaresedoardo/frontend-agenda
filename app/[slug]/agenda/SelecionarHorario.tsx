@@ -25,8 +25,8 @@ export type Config = {
   horario_final_almoco?: string
   cor_primaria_tema?: string
   cor_secundaria_tema?: string
-  horario_inicial_sabado: string
-  horario_final_sabado: string
+  horario_inicial_sabado?: string
+  horario_final_sabado?: string
 }
 type Props = {
   configuracao: Config[]
@@ -52,7 +52,7 @@ export default function SelecionarHorario(props: Props) {
         }
   const horaFinal = extrairNumeroDaHora(
     trabalhaSabado && verificaSabado(diaSelecionado!)
-      ? configuracao.horario_final_sabado
+      ? configuracao.horario_final_sabado!
       : configuracao.horario_final!,
   )
   const intervalo = configuracao.intervalo_entre_horario
@@ -133,8 +133,8 @@ export default function SelecionarHorario(props: Props) {
     if (trabalhaSabado && verificaSabado(diaSelecionado!)) {
       valoresFiltrados = valoresFiltrados.filter(
         (hora) =>
-          hora >= formatarHora(configuracao.horario_inicial_sabado) &&
-          hora <= formatarHora(configuracao.horario_final_sabado),
+          hora >= formatarHora(configuracao.horario_inicial_sabado!) &&
+          hora <= formatarHora(configuracao.horario_final_sabado!),
       )
     }
 
