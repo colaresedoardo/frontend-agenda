@@ -13,7 +13,7 @@ import { FormEvent, useContext, useState } from 'react'
 import ListarData from './SelecionarData'
 import ResumoServico from './Resumo'
 import SelecionarProfissional from './SelecionarProfessional'
-import SelecionarHorario, { config } from './SelecionarHorario'
+import SelecionarHorario, { Config } from './SelecionarHorario'
 import { ContextoEvento } from './Contexto'
 import FormFinal from './FormFinal'
 import enviarMensagem from '../../actions/servico/enviarMensagem'
@@ -24,7 +24,7 @@ import { converterData } from '@/app/utils'
 type Props = {
   servicos: []
   profissionais: []
-  configuracao: config[]
+  configuracao: Config[]
   identificarCliente: string
 }
 

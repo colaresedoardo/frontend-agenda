@@ -12,7 +12,7 @@ import {
   trazerDataFormatoAmericano,
 } from '../../utils'
 
-export type config = {
+export type Config = {
   horario_inicial?: string
   horario_final?: string
   intervalo_entre_horario?: number
@@ -22,9 +22,11 @@ export type config = {
   trabalho_domingo?: boolean
   horario_inicial_almoco?: string
   horario_final_almoco?: string
+  cor_primaria_tema?: string
+  cor_secundaria_tema?: string
 }
 type Props = {
-  configuracao: config[]
+  configuracao: Config[]
 }
 type EventoType = {
   horario: string

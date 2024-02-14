@@ -1,5 +1,5 @@
 // import { getCookie } from 'cookies-next'
-export const fetcher = (
+export const fetcher = async (
   recurso: string,
   parametros?: Record<string, string | number | boolean>,
 ) => {
@@ -11,16 +11,15 @@ export const fetcher = (
       url.searchParams.append(chave, encodeURIComponent(parametros[chave]))
     })
   }
-
+  console.log(url)
   // const token = getCookie('Authorization')
-  const resultado = fetch(url.toString(), {
+  const resultado = await fetch(url.toString(), {
     method: 'GET',
     headers: {
       // Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
   }).then((response) => response.json())
-  console.log('dentro')
-  console.log(resultado)
+
   return resultado
 }

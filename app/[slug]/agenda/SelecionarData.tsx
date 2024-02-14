@@ -11,11 +11,11 @@ import { useContext, useEffect, useState } from 'react'
 import { ContextoEvento } from './Contexto'
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
-import { config } from './SelecionarHorario'
+import { Config } from './SelecionarHorario'
 import { trazerDataFormatoAmericanoTipoDate } from '@/app/utils'
 
 type Props = {
-  configuracao: config[]
+  configuracao: Config[]
 }
 export default function ListarData(props: Props) {
   const nomesDosDiasDaSemana = [
