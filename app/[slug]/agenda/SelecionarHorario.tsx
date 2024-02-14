@@ -10,6 +10,7 @@ import {
   formatarHora,
   separarHoraMinuto,
   trazerDataFormatoAmericano,
+  verificaSabado,
 } from '../../utils'
 
 export type Config = {
@@ -24,6 +25,8 @@ export type Config = {
   horario_final_almoco?: string
   cor_primaria_tema?: string
   cor_secundaria_tema?: string
+  horario_inicial_sabado: string
+  horario_final_sabado: string
 }
 type Props = {
   configuracao: Config[]
@@ -34,10 +37,15 @@ type EventoType = {
 export default function SelecionarHorario(props: Props) {
   const configuracao = props.configuracao[0]
   const evento = useContext(ContextoEvento)
-  const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
+  const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
+  const trabalhaSabado = configuracao.trabalho_sabado
+  const horaInical = extrairNumeroDaHora(
+    trabalhaSabado && verificaSabado(diaSelecionado!)
+      ? configuracao.horario_inicial_sabado
+      : configuracao.horario_inicial!,
+  )
   const horarioInicial = separarHoraMinuto(configuracao.horario_inicial!)
   const seperandoHorarioFinal = separarHoraMinuto(configuracao.horario_final!)
-  const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
 
   const horarioFinal =
     seperandoHorarioFinal != null
@@ -46,7 +54,11 @@ export default function SelecionarHorario(props: Props) {
           hora: 17,
           minuto: 0,
         }
-  const horaFinal = extrairNumeroDaHora(configuracao.horario_final!)
+  const horaFinal = extrairNumeroDaHora(
+    trabalhaSabado && verificaSabado(diaSelecionado!)
+      ? configuracao.horario_final_sabado
+      : configuracao.horario_final!,
+  )
   const horarioInicialAlmoco = extrairNumeroDaHora(
     configuracao.horario_inicial_almoco!,
   )
@@ -161,8 +173,10 @@ export default function SelecionarHorario(props: Props) {
       setListaDeHoras(valoresFiltrados)
     }
   }, [])
-  console.log('intervalo')
-  console.log(intervalo)
+  console.log('configuração')
+  console.log('dia selecioando')
+  console.log(diaSelecionado)
+  console.log(verificaSabado(diaSelecionado!))
 
   return (
     <Box>

@@ -67,3 +67,18 @@ export function separarHoraMinuto(valor: string) {
     return null
   }
 }
+
+export function verificaSabado(date: string) {
+  const data = new Date(`${date}T00:00`)
+
+  console.log(data)
+  // Obter o dia da semana (0 = domingo, 1 = segunda-feira, ..., 6 = sábado)
+  const diaDaSemana = data.getDay()
+
+  // Verificar se é sábado (diaDaSemana igual a 6)
+  if (diaDaSemana === 6) {
+    return true
+  } else {
+    false
+  }
+}
