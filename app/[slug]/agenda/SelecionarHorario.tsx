@@ -40,7 +40,7 @@ export default function SelecionarHorario(props: Props) {
   const diaSelecionado = evento?.evento.map((evento) => evento.data_inicio)[0]
   const trabalhaSabado = configuracao.trabalho_sabado
   const horaInical = extrairNumeroDaHora(configuracao.horario_inicial!)
-  const horarioInicial = separarHoraMinuto(configuracao.horario_inicial!)
+
   const seperandoHorarioFinal = separarHoraMinuto(configuracao.horario_final!)
 
   const horarioFinal =
