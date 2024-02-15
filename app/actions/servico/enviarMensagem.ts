@@ -21,7 +21,6 @@ export default async function enviarMensagem(formDataRaw: FormData) {
     grupo: formDataRaw.get('grupo')?.toString(),
   }
   const apiClient = new ApiServer()
-  console.log('dados')
 
   // const objeto: EventoModelo = {}
   // formDataRaw.forEach((value, key) => {
@@ -39,7 +38,7 @@ export default async function enviarMensagem(formDataRaw: FormData) {
     numero: formData.numero,
     grupo: formData.grupo,
   }
-  console.log(bodyRequest)
+
   const resposta = await apiClient.post('evento/', bodyRequest)
   return resposta
 }

@@ -109,8 +109,8 @@ profissional: ${profissional?.nome} 👤`
 
     conteudo = encodeURIComponent(conteudo)
     const url = `https://api.whatsapp.com/send?phone=${profissional?.telefone}&text=${conteudo}`
-    window.open(url)
-    // window.location.replace(url);
+    // window.open(url)
+    window.location.replace(url)
   }
 
   const habilitarBotaoProximoServico = evento?.evento.map(
