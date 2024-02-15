@@ -200,7 +200,7 @@ export default function PersistentDrawerLeft({
         </DrawerHeader>
         <Divider />
         <List>
-          {valor.slug && (
+          {nomeCompleto && (
             <Link
               href={'/' + valor.slug + '/servico'}
               style={{
