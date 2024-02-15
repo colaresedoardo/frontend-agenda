@@ -15,8 +15,7 @@ export default function FormFinal() {
       [name]: value,
     }))
   }
-  console.log('dentro form')
-  console.log(formulario)
+
   return (
     <Box display={'flex'} flexDirection={'column'} gap={1} flexWrap={'wrap'}>
       <Typography>Digite seus dados para a equipe entrar em contato</Typography>

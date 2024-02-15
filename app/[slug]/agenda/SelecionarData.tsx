@@ -107,13 +107,12 @@ export default function ListarData(props: Props) {
     const dia = data.getDate()
     const mes = data.getMonth()
     const ano = data.getFullYear()
-    console.log('dentro de adicionar')
-    console.log(configuracao)
+
     return new Date(ano, mes, dia + quatidade)
   }
   const atualizarSequenciaParaFrente = () => {
     const dataAdicionada = adicionarDias(dataAtual, 7)
-    console.log(dataAdicionada)
+
     setDataAtual(dataAdicionada)
     setSequenciaDias([])
   }

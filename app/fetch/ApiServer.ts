@@ -24,8 +24,7 @@ class ApiServer {
       )
     }
     const autorizacao = cookies().get('Authorization')?.value
-    console.log('autorização')
-    console.log(autorizacao)
+
     const token = `Bearer  ${autorizacao}`
     let response = null
     if (nomeParaRevalidarConsulta) {

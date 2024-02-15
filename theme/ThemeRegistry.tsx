@@ -25,8 +25,6 @@ export default function ThemeRegistry({
 
   const { data } = useSWR('configuracao/', (url) => fetcher(url, parametros))
   const config: Config = data ? (data[0] as Config) : {}
-  console.log('dentro do tema')
-  console.log(data)
 
   const pallete = {
     primary: {
