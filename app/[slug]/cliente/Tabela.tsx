@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 
 import { EventoCompletoType } from './page'
-import { converterData, converterIniciaisMaiusculas } from '@/app/utils'
+import { converterIniciaisMaiusculas } from '@/app/utils'
 
 type Props = {
   dados: EventoCompletoType[]
