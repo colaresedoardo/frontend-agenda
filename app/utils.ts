@@ -7,7 +7,23 @@ export const converterData = (dataString: string) => {
 
   return `${dia}/${mes}/${ano}`
 }
+export function diaFormatado(data: Date): string {
+  // Cria um novo objeto Date com base no objeto fornecido
+  const dataObj = new Date(data)
 
+  // Adiciona um dia à data
+  dataObj.setDate(dataObj.getDate() + 1)
+
+  // Obtém os componentes da data formatada
+  const ano: number = dataObj.getFullYear()
+  const mes: string = String(dataObj.getMonth() + 1).padStart(2, '0')
+  const dia: string = String(dataObj.getDate()).padStart(2, '0')
+
+  // Formata o resultado no formato desejado
+  const resultadoFormatado: string = `${ano}-${mes}-${dia}`
+
+  return resultadoFormatado
+}
 export const trazerDataFormatoAmericano = (data: Date) => {
   const ano = data.getFullYear()
   const mes = ('0' + (data.getMonth() + 1)).slice(-2) // Adiciona um zero à esquerda se necessário
@@ -81,4 +97,20 @@ export function verificaSabado(date: string) {
   } else {
     false
   }
+}
+
+export function converterIniciaisMaiusculas(nome: string): string {
+  // Divida o nome em palavras
+  const palavras = nome.split(' ')
+
+  // Capitalize a primeira letra de cada palavra
+  const nomeCapitalizado = palavras.map(
+    (palavra) =>
+      palavra.charAt(0).toUpperCase() + palavra.slice(1).toLowerCase(),
+  )
+
+  // Junte as palavras de volta em um nome
+  const nomeConvertido = nomeCapitalizado.join(' ')
+
+  return nomeConvertido
 }

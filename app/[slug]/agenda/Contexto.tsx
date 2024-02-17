@@ -3,6 +3,11 @@ import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
 import PassoPassoAgendamento from './Passo'
 import { Config } from './SelecionarHorario'
+export type ClienteType = {
+  nome: string
+  telefone: string
+  grupo: number
+}
 
 type Props = {
   servicos: []

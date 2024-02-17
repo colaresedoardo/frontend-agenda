@@ -219,7 +219,25 @@ export default function PersistentDrawerLeft({
               </ListItem>
             </Link>
           )}
+          {nomeCompleto && (
+            <Link
+              href={'/' + valor.slug + '/cliente'}
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.primary.dark,
+              }}
+            >
+              <ListItem disablePadding onClick={handleDrawerClose}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <MailIcon />
+                  </ListItemIcon>
 
+                  <ListItemText primary="Cliente"></ListItemText>
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          )}
           <Link
             href={'/' + valor.slug + '/agenda'}
             style={{
