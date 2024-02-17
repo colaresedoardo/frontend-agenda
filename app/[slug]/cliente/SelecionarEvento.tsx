@@ -60,7 +60,7 @@ export function SelecionarEvento(props: Props) {
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={8} sm={8} md={8}>
+      <Grid item xs={12} sm={12} md={12}>
         <TabelaClienteComponent dados={eventos}></TabelaClienteComponent>
       </Grid>
     </Grid>
